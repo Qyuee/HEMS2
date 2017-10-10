@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="동대문구">
+        <item>장안동</item>
+        <item>답십리동</item>
+        <item>용신동</item>
+        <item>이문동</item>
+        <item>전농동</item>
+        <item>제기동</item>
+        <item>청량리동</item>
+        <item>회기동</item>
+        <item>휘경동</item>
+    </string-array>
+
+    <string-array name="동작구">
+        <item>노량진동</item>
+        <item>대방동</item>
+        <item>사당동</item>
+        <item>상도동</item>
+        <item>신대방동</item>
+        <item>흑석동</item>
+    </string-array>
+
+    <string-array name="중구">
+        <item>광희동</item>
+        <item>다산동</item>
+        <item>동화동</item>
+        <item>명동</item>
+        <item>소공동</item>
+        <item>신당동</item>
+        <item>약수동</item>
+        <item>을지로동</item>
+        <item>장충동</item>
+        <item>중림동</item>
+        <item>청구동</item>
+        <item>필동</item>
+        <item>황학동</item>
+        <item>회현동</item>
+    </string-array>
+
+</resources>

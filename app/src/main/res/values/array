@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="alarmsetting">
+        <item>소리</item>
+        <item>진동</item>
+        <item>무음</item>
+    </string-array>
+
+    <string-array name="alarmsetting_values">
+        <item>1</item>
+        <item>2</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="tempsetting">
+        <item>1시간</item>
+        <item>2시간</item>
+        <item>6시간</item>
+        <item>12시간</item>
+    </string-array>
+
+    <string-array name="tempsetting_values">
+        <item>1</item>
+        <item>2</item>
+        <item>6</item>
+        <item>12</item>
+
+    </string-array>
+
+</resources>

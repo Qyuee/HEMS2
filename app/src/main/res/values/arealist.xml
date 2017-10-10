@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="first_area">
+        <item>서울</item>
+        <!--<item>경기도</item>-->
+        <!--<item>인천</item>>-->
+    </string-array>
+
+    <string-array name="seoul">
+        <!--<item>강남구</item>-->
+        <!--<item>강동구</item>-->
+        <!--<item>강북구</item>-->
+        <!--<item>강서구</item>-->
+        <item>동대문구</item>
+        <item>중구</item>
+        <item>동작구</item>
+    </string-array>
+
+    <string-array name="inchon">
+        <!--<item>강화군</item>-->
+        <!--<item>계양구</item>-->
+        <!--<item>남구</item>-->
+        <!--<item>남동구</item>-->
+        <!--<item>동구</item>-->
+        <!--<item>중구</item>-->
+        <!--<item>부평구</item>-->
+    </string-array>
+
+</resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="setting_activity_top_title"
+    android:title="Setting">
+
+    <!-- 설정를 구성하는 Layout XML -->
+
+    <PreferenceCategory
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:key="setting_activity_alarm"
+        android:title="Alarm setting">
+
+        <SwitchPreference
+            android:key="alarmsetting"
+            android:title="Alarm"
+            android:defaultValue="false"
+            android:summary="체크 해제시 모든 알림 해제"/>
+
+        <ListPreference
+            android:defaultValue="0"
+            android:dependency="alarmsetting"
+            android:entries="@array/alarmsetting"
+            android:entryValues="@array/alarmsetting_values"
+            android:key="alarm"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="알림 종류"
+            android:summary="무음,진동,소리 중 고를 수 있습니다"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:key="setting_activity_pushalarm"
+        android:title="Push Setting">
+
+        <SwitchPreference
+            android:key="pushsetting"
+            android:dependency="alarmsetting"
+            android:title="팝업 알림"
+            android:defaultValue="false"
+            android:summary="전기사용량이 설정수치를 넘으면 팝업 생성"/>
+
+        <EditTextPreference
+            android:defaultValue="100"
+            android:dependency="pushsetting"
+            android:key="edittextvalue"
+            android:title="전기량 설정(단위:kwh)"
+            android:summary="입력하신 값을 전기사용량과 비교합니다"/>
+
+        <SwitchPreference
+            android:key="temp_setting"
+            android:dependency="alarmsetting"
+            android:title="실내 온도 알림"
+            android:defaultValue="true"
+            android:summary="실내 온도 알림 On/Off"/>
+
+        <ListPreference
+            android:defaultValue="1"
+            android:dependency="temp_setting"
+            android:entries="@array/tempsetting"
+            android:entryValues="@array/tempsetting_values"
+            android:key="temp"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="실내 온도 알림 주기 설정"
+            android:summary="1시간, 2시간, 6시간, 12시간"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:key="setting_activity_log"
+        android:title="로그인 유지">
+
+        <CheckBoxPreference
+            android:key="logout"
+            android:title="로그인 유지"
+            android:defaultValue="false"
+            android:summary="로그인 유지"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:key="setting_activity_account"
+        android:title="Application Information">
+        <Preference
+            android:key="setting_activity_id"
+            android:title="쇼미더일렉"
+            android:selectable="true" />
+        <Preference
+            android:key="setting_activity_app_version"
+            android:title="버전 정보"
+            android:selectable="true"
+            android:summary="Ver.1.0.09"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
