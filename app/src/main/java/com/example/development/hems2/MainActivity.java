@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+
                     } catch(InterruptedException e){
                         e.printStackTrace();
                         Log.e("test", "알람 스레드 에러");
