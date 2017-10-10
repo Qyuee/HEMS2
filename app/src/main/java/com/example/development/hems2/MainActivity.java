@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
+    // hello!
     // 온습도 서비스 중복 실행 검사 메소드
     public boolean tempServiceRunningCheck() {
         ActivityManager manager = (ActivityManager) this.getSystemService(Activity.ACTIVITY_SERVICE);
