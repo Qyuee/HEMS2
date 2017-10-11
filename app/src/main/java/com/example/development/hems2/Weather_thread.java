@@ -185,6 +185,9 @@ public class Weather_thread extends Thread{
 
         www=new String[root.getLength()][5];
 
+        String[] temp_max=new String[root.getLength()];
+        String[] temp_min=new String[root.getLength()];
+
         for(int i=0; i<root.getLength(); i++){
             for(Node node = root.item(i).getFirstChild(); node!=null; node=node.getNextSibling()){
 
@@ -197,6 +200,10 @@ public class Weather_thread extends Thread{
                 }else if(node.getNodeName().equals("temp")) {
                     temp[i]=node.getTextContent();
                     result+="  온도 : " + node.getTextContent();
+                }else if(node.getNodeName().equals("tmx")){
+                    temp_max[i]=node.getTextContent();
+                }else if(node.getNodeName().equals("tmn")){
+                    temp_min[i]=node.getTextContent();
                 }else if(node.getNodeName().equals("wfKor")){
                     status[i]=node.getTextContent();
                     result+="  날씨 : " + node.getTextContent();
@@ -218,11 +225,20 @@ public class Weather_thread extends Thread{
             }else if(day[i].equals("1")){
 
                 if(Integer.parseInt(hour[i])>12){
-                    hour[i]="오후 "+(Integer.parseInt(hour[i])-12)+"시";
+                    if((Integer.parseInt(hour[i])-12)!=12){
+                        hour[i]="오후 0"+(Integer.parseInt(hour[i])-12)+"시";
+                    }else{
+                        hour[i]="오후 "+(Integer.parseInt(hour[i])-12)+"시";
+                    }
                 }else{
-                    hour[i]="오전 "+hour[i]+"시";
+                    if(Integer.parseInt(hour[i])!=12){
+                        hour[i]="오전 0"+hour[i]+"시";
+                    }else{
+                        hour[i]="오전 "+hour[i]+"시";
+                    }
                 }
                 tomorrow+=hour[i]+"  온도 : "+temp[i]+"  습도 : "+humi[i]+"  날씨 : "+status[i]+"\n";
+
             }else if(day[i].equals("2")){
 
                 if(Integer.parseInt(hour[i])>12){
@@ -247,6 +263,8 @@ public class Weather_thread extends Thread{
         bd.putStringArray("온도", temp);
         bd.putStringArray("날씨상태", status);
         bd.putStringArray("습도", humi);
+        bd.putStringArray("최고기온",temp_max);
+        bd.putStringArray("최저온도",temp_min);
 
         msg=handler.obtainMessage();
         msg.setData(bd);

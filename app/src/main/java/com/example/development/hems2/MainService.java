@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -28,13 +27,13 @@ import java.net.URL;
 public class MainService extends Service {
     private static String TAG = "phptest_MainActivity";
 
-    Integer electNum;
+    double electNum;
     String Data;
-    Integer DBnum;
+    double DBnum;
     int i=0;
 
     int alarm_point=0;
-    boolean push;
+    int push;
 
     thread t;
     boolean option;
@@ -73,18 +72,24 @@ public class MainService extends Service {
                     i++;
                     Log.v("MainService ", "data 받기" +i);
 
-                    //true 이면 DB값이 설정한 값을 넘었다는 뜻
-                    if(push==true && alarm_point==0){
-                        alarm_point=1;
-                        getMassage();
-                        Log.v("MainService ", "노티피케이션 발생");
+                    if(push==1&& alarm_point==1){ //push 1이면 설정값이 DB값 넘었다는 뜻
+                        alarm_point=2;
+                        Fullpower_alarm();
+                        Log.v("MainService ", "100% 달성 노티피케이션 발생");
 
                         Thread.sleep(5000);
                         //최초 알림 발생후 5초간 sleep
                         // (주의, 정확히 1시간인지 테스트 안해봄)
                     }
-                    else if(push==false) {
+                    else if(push==2) {  //설정값이 DB값(절반)을 넘지 않았다는뜻
                         Log.v("MainService ", "DB 아직 안넘음 or 알림 이미 발생함.");
+                    }
+                    else if(push==3 && alarm_point==0) {  //push 3이면 설정 값이 DB값 절반을 넘었다는 뜻
+                        alarm_point=1;
+                        Halfpower_alarm();
+                        Log.v("MainService ", "50% 달성 노티피케이션 발생");
+
+                        Thread.sleep(5000);
                     }
 
                     if(option==false){
@@ -134,7 +139,7 @@ public class MainService extends Service {
             Log.v("MainService","설정된 수치 : "+electNum);
 
             // 알람이 이미 생성된 상태고 DB값이 설정 값보다 작다는 것은 재설정 되었다는 뜻.
-            if(alarm_point==1 && DBnum<electNum){
+            if(alarm_point==2 && DBnum<electNum){
                 alarm_point=0;
             }
 
@@ -144,11 +149,23 @@ public class MainService extends Service {
             // if문으로 DB에 저장된 값과 사용자가 설정한 전기사용량보다 큰지 확인
             // electNum - 사용자 설정 값.
             // DBnum - 데이터 베이스 값.
-            if(electNum<DBnum) { //여기 조건문에 비교대상으로 넣어주면 되요!
-                push = true;
+
+            if((electNum/2)<DBnum) { //50퍼 넘었는지 확인
+                push = 3;
+
+                if(electNum<DBnum) {  //50퍼 넘었다면 100퍼도 넘었는지 확인
+                    push = 1;
+                    Log.v("MainService ", "100퍼 넘음");
+
+                }
+                else{
+                    Log.v("MainService ", "50퍼 넘음");
+                }
+
             }
-            else if(electNum>DBnum){
-                push= false;
+
+            else if(electNum>DBnum){  // 위에 조건문이 실행되지 않고 넘어가면 push 2 설정
+                push= 2;
                 Log.v("MainService ", "아직 안넘음");
             }
             else
@@ -205,12 +222,20 @@ public class MainService extends Service {
 
         }
     }
-    private void getMassage(){
+    private void Fullpower_alarm(){
 
         NotificationCompat.Builder mBuilder = createNotification();
         mBuilder.setContentIntent(createPendingIntent());
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());
+    }
+
+    private void Halfpower_alarm(){
+
+        NotificationCompat.Builder mBuilder2 = createNotification2();
+        mBuilder2.setContentIntent(createPendingIntent());
+        NotificationManager mNotificationManager2 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager2.notify(1, mBuilder2.build());
     }
 
 
@@ -234,7 +259,7 @@ public class MainService extends Service {
         );
     }
 
-
+    //전기사용량 100퍼!
     private NotificationCompat.Builder createNotification(){
 
         int check=2;
@@ -252,8 +277,53 @@ public class MainService extends Service {
         NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.smart_home)
                 .setLargeIcon(icon)
-                .setContentTitle("전기 사용량이 설정한 수치를 넘었습니다.")
+                .setContentTitle("전기사용량 목표치 100% 도달")
                 .setContentText("전기 사용량 목표치를 재설정 해주세요")
+                .setSmallIcon(R.drawable.smart_home)
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis());
+
+        //res 폴더->raw 폴더  mp3 추가, values -> array 폴더 0,1,2 일치하는지 확인
+        //  핸드폰 기본 설정 무음 소리 진동에 따라서 어플 설정 무시될수도 있음
+
+        Uri alarmSound = Uri.parse("android.resource://com.example.development.hems2/"+ R.raw.circles);
+
+        // alarm 값 0이면 무음
+        if(soundsetting.equals("0")){
+            builder.setVibrate(new long[]{0, 0});
+        }
+
+        // alarm 값 1이면 소리
+        if(soundsetting.equals("1")) {
+            builder.setSound(alarmSound);
+        }
+
+        // alarm 값 2이면 진동
+        if(soundsetting.equals("2")) {
+            builder.setVibrate(new long[]{0, 500});
+        }
+        // 여기까지 추가됨
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            builder.setCategory(Notification.CATEGORY_MESSAGE)
+                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC);
+        }return builder;
+    }
+
+    //전기사용량 50퍼!
+    private NotificationCompat.Builder createNotification2(){
+
+        //alarm 소리 진동 무음 설정 value는 "alram"
+        SharedPreferences alarmsound = PreferenceManager.getDefaultSharedPreferences(MainService.this);
+        String soundsetting = alarmsound.getString("alarm", "");
+
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.smart_home_icon);
+        NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.smart_home)
+                .setLargeIcon(icon)
+                .setContentTitle("전기사용량 목표치 50% 도달")
+                .setContentText("전기 사용에 주의해주세요")
                 .setSmallIcon(R.drawable.smart_home)
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis());

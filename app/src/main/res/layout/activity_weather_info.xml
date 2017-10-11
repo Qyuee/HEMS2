@@ -153,6 +153,7 @@
 
                     </LinearLayout>
 
+
                     <LinearLayout
                         android:layout_weight="1"
                         android:layout_width="0dp"
@@ -178,18 +179,216 @@
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_marginTop="1mm"
-                android:background="@drawable/round_box_white"
+                android:background="@drawable/round_box_white_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:gravity="left|center_horizontal"
-                    android:id="@+id/tomorrow"
-                    android:textSize="8pt"
+                    android:id="@+id/tomorrow_area_info"
+                    android:textColor="#000000"
                     android:textStyle="bold"
-                    android:layout_width="match_parent"
+                    android:textSize="8pt"
+                    android:layout_margin="4dp"
+                    android:padding="4dp"
+                    android:text="내일 날씨"
+                    android:background="@drawable/weather_table_text"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
+                <TableLayout
+                    android:stretchColumns="*"
+                    android:layout_margin="4dp"
+                    android:padding="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TableRow
+                        android:layout_marginBottom="3dp"
+                        android:id="@+id/tomorrow_first">
+
+                        <ImageView
+                            android:id="@+id/tomorrow_first_image"
+                            android:layout_width="0.1dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:id="@+id/tomorrow_first_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:padding="3dp"
+                            android:text="내일 시간" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="3dp"
+                        android:id="@+id/tomorrow_second">
+
+                        <ImageView
+                            android:id="@+id/tomorrow_second_image"
+                            android:layout_width="0.1dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:id="@+id/tomorrow_second_text"
+                            android:padding="3dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:layout_margin="1dp"
+                            android:text="내일 시간" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="3dp"
+                        android:id="@+id/tomorrow_third">
+
+                        <ImageView
+                            android:id="@+id/tomorrow_third_image"
+                            android:layout_width="0.1dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:id="@+id/tomorrow_third_text"
+                            android:padding="3dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:layout_margin="1dp"
+                            android:text="내일 시간" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="3dp"
+                        android:id="@+id/tomorrow_forth">
+
+                        <ImageView
+                            android:id="@+id/tomorrow_forth_image"
+                            android:layout_width="0.1dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:id="@+id/tomorrow_forth_text"
+                            android:padding="3dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:layout_margin="1dp"
+                            android:text="내일 시간" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="3dp"
+                        android:id="@+id/tomorrow_fifth">
+
+                        <ImageView
+                            android:id="@+id/tomorrow_fifth_image"
+                            android:layout_width="0.1dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:id="@+id/tomorrow_fifth_text"
+                            android:padding="3dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:layout_margin="1dp"
+                            android:text="내일 시간" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="3dp"
+                        android:id="@+id/tomorrow_sixth">
+
+                        <ImageView
+                            android:id="@+id/tomorrow_sixth_image"
+                            android:layout_width="0.1dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:id="@+id/tomorrow_sixth_text"
+                            android:padding="3dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:layout_margin="1dp"
+                            android:text="내일 시간" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="3dp"
+                        android:id="@+id/tomorrow_seven">
+
+                        <ImageView
+                            android:id="@+id/tomorrow_seven_image"
+                            android:layout_width="0.1dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:id="@+id/tomorrow_seven_text"
+                            android:padding="3dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:layout_margin="1dp"
+                            android:text="내일 시간" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="3dp"
+                        android:id="@+id/tomorrow_eight">
+
+                        <ImageView
+                            android:id="@+id/tomorrow_eight_image"
+                            android:layout_width="0.1dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:id="@+id/tomorrow_eight_text"
+                            android:padding="3dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:layout_margin="1dp"
+                            android:text="내일 시간" />
+
+                    </TableRow>
+
+                </TableLayout>
 
             </LinearLayout>
 
