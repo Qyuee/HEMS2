@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:scrollbars="none"
-    android:background="@drawable/main">
+    android:background="@drawable/activity_backimage">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -30,9 +30,10 @@
 
                 <TextView
                     android:id="@+id/title_text"
+                    android:padding="3dp"
                     android:background="@drawable/round_box_white_text"
                     android:text="상세조회/요금조회"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:textSize="9pt"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -102,6 +103,7 @@
                                             android:background="@drawable/round_btn_focusactivity"
                                             android:onClick="btn1"
                                             android:text="시작 날짜"
+                                            android:textColor="#ffffff"
                                             android:textSize="6pt"
                                             android:textStyle="bold" />
                                     </LinearLayout>
@@ -113,6 +115,7 @@
                                         android:layout_margin="1mm">
 
                                         <TextView
+                                            android:textColor="#ffffff"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:gravity="left|center_horizontal"
@@ -132,6 +135,7 @@
                                         android:orientation="horizontal">
 
                                         <Button
+                                            android:textColor="#ffffff"
                                             android:id="@+id/select_second_date"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -152,6 +156,7 @@
                                     android:orientation="vertical">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:id="@+id/search"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
@@ -195,6 +200,7 @@
                                     android:layout_weight="1">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:id="@+id/button"
                                         android:layout_width="match_parent"
                                         android:layout_height="20dp"
@@ -213,6 +219,7 @@
                                     android:layout_height="match_parent">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:layout_width="match_parent"
                                         android:layout_height="20dp"
                                         android:background="@drawable/round_btn_focusactivity"
@@ -229,6 +236,7 @@
                                     android:layout_height="match_parent">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:layout_width="match_parent"
                                         android:layout_height="20dp"
                                         android:layout_gravity="center_horizontal"
@@ -246,6 +254,7 @@
                             <LinearLayout
                                 android:id="@+id/Based_Date_graph_layout"
                                 android:layout_marginTop="10dp"
+                                android:padding="5dp"
                                 android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -434,6 +443,7 @@
                                         android:orientation="horizontal">
 
                                         <Button
+                                            android:textColor="#ffffff"
                                             android:id="@+id/select_time_date"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -454,6 +464,7 @@
                                         android:orientation="horizontal">
 
                                         <Button
+                                            android:textColor="#ffffff"
                                             android:id="@+id/search_time"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -481,6 +492,7 @@
                                     android:layout_height="match_parent">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:id="@+id/graph_time_btn"
                                         android:layout_width="match_parent"
                                         android:layout_height="20dp"
@@ -499,6 +511,7 @@
                                     android:layout_height="match_parent">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:onClick="Detail_time_btn"
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:text="조회내용"
@@ -516,6 +529,7 @@
                             <LinearLayout
                                 android:id="@+id/Based_Time_graph_layout"
                                 android:layout_marginTop="10dp"
+                                android:padding="5dp"
                                 android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -627,6 +641,7 @@
                                         android:orientation="horizontal">
 
                                         <Button
+                                            android:textColor="#ffffff"
                                             android:id="@+id/select_first_month"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -664,6 +679,7 @@
                                         android:orientation="horizontal">
 
                                         <Button
+                                            android:textColor="#ffffff"
                                             android:id="@+id/select_second_month"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -684,6 +700,7 @@
                                     android:orientation="vertical">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:id="@+id/search_month"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
@@ -727,6 +744,7 @@
                                     android:layout_weight="1">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:id="@+id/button_graph_month"
                                         android:layout_width="match_parent"
                                         android:layout_height="20dp"
@@ -745,6 +763,7 @@
                                     android:layout_height="match_parent">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:layout_width="match_parent"
                                         android:layout_height="20dp"
                                         android:background="@drawable/round_btn_focusactivity"
@@ -761,6 +780,7 @@
                                     android:layout_height="match_parent">
 
                                     <Button
+                                        android:textColor="#ffffff"
                                         android:layout_width="match_parent"
                                         android:layout_height="20dp"
                                         android:layout_gravity="center_horizontal"
@@ -778,6 +798,7 @@
                             <LinearLayout
                                 android:id="@+id/Based_month_graph_layout"
                                 android:layout_marginTop="10dp"
+                                android:padding="5dp"
                                 android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">

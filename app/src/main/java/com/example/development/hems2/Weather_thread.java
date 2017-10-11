@@ -217,9 +217,17 @@ public class Weather_thread extends Thread{
             if(day[i].equals("0")){
 
                 if(Integer.parseInt(hour[i])>12){
-                    hour[i]="오후 "+(Integer.parseInt(hour[i])-12)+"시";
+                    if((Integer.parseInt(hour[i])-12)!=12){
+                        hour[i]="오후 0"+(Integer.parseInt(hour[i])-12)+"시";
+                    }else{
+                        hour[i]="오후 "+(Integer.parseInt(hour[i])-12)+"시";
+                    }
                 }else{
-                    hour[i]="오전 "+hour[i]+"시";
+                    if(Integer.parseInt(hour[i])!=12){
+                        hour[i]="오전 0"+hour[i]+"시";
+                    }else{
+                        hour[i]="오전 "+hour[i]+"시";
+                    }
                 }
                 today+=hour[i]+"  온도 : "+temp[i]+"  습도 : "+humi[i]+"  날씨 : "+status[i]+"\n";
             }else if(day[i].equals("1")){
@@ -242,9 +250,17 @@ public class Weather_thread extends Thread{
             }else if(day[i].equals("2")){
 
                 if(Integer.parseInt(hour[i])>12){
-                    hour[i]="오후 "+(Integer.parseInt(hour[i])-12)+"시";
+                    if((Integer.parseInt(hour[i])-12)!=12){
+                        hour[i]="오후 0"+(Integer.parseInt(hour[i])-12)+"시";
+                    }else{
+                        hour[i]="오후 "+(Integer.parseInt(hour[i])-12)+"시";
+                    }
                 }else{
-                    hour[i]="오전 "+hour[i]+"시";
+                    if(Integer.parseInt(hour[i])!=12){
+                        hour[i]="오전 0"+hour[i]+"시";
+                    }else{
+                        hour[i]="오전 "+hour[i]+"시";
+                    }
                 }
                 day_after_tomorrow+=hour[i]+"  온도 : "+temp[i]+"  습도 : "+humi[i]+"  날씨 : "+status[i]+"\n";
             }

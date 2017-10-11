@@ -51,6 +51,8 @@ public class Focus_search_activity extends AppCompatActivity {
     private ArrayList date_month=new ArrayList();
     private ArrayList avgs_month=new ArrayList();
 
+    private TextView title_text;
+
     // "기간별 조회"의 세부사항 텍스트 뷰 변수.
     private TextView Detail_Max_Value=null;                     // 선택한 기간중 가장 높은 사용량을 표시할 텍스트.
     private TextView Deatil_Min_Value=null;                     // 선택한 기간중 가장 낮은 사용량을 표시할 텍스트.
@@ -146,6 +148,9 @@ public class Focus_search_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_focus_search);
+
+       //타이틀 텍스트 연결
+       title_text=(TextView) findViewById(R.id.title_text);
 
        // 기간별 조회의 "시작 날짜", "종료 날짜" 버튼 연결.
        Select_first_date=(Button) findViewById(R.id.select_first_date);
@@ -370,6 +375,7 @@ public class Focus_search_activity extends AppCompatActivity {
             }
 
            if(!first_Year.equals("0")){
+//               String serverURL = "http://172.20.10.2/Haniem/select_basedDate.php";
                String serverURL = "http://211.178.109.157/Haniem/select_basedDate.php";
                String postParameters = "first_Year=" + first_Year + "&first_Month=" + first_Month+"&first_Date="+first_Date;
                postParameters+="&second_Year="+second_Year+"&second_Month="+second_Month+"&second_Date="+second_Date;
@@ -732,6 +738,7 @@ public class Focus_search_activity extends AppCompatActivity {
 
             if(!first_Year_day.equals("0")){
 
+//                String serverURL = "http://172.20.10.2/Haniem/select_basedTime.php";
                 String serverURL = "http://211.178.109.157/Haniem/select_basedTime.php";
                 String postParameters = "first_Year=" + first_Year_day + "&first_Month=" + first_Month_day+"&first_Date="+first_Date_day;
 
@@ -1137,6 +1144,7 @@ public class Focus_search_activity extends AppCompatActivity {
             }
 
             if(!first_Year.equals("0") && !first_Month.equals("0")){
+//                String serverURL = "http://172.20.10.2/Haniem/select_basedMonth.php";
                 String serverURL = "http://211.178.109.157/Haniem/select_basedMonth.php";
                 String postParameters = "first_Year=" + first_Year + "&first_Month=" + first_Month;
                 postParameters+="&second_Year="+second_Year+"&second_Month="+second_Month;

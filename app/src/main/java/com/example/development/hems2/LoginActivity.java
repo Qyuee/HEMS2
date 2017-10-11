@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
     String sId, sPw;
     double initTime;
 
+    LinearLayout linearLayout=null;
+    LinearLayout.LayoutParams params=null;
+
     final Context context = this;//이거 onPostExecute부분에서 필요한 것이었음
 
     @Override
@@ -34,9 +39,23 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         et_id = (EditText) findViewById(R.id.IdText);
         et_pw = (EditText) findViewById(R.id.PasswordText);
+
+        LayoutInflater inflater=(LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        linearLayout=(LinearLayout)inflater.inflate(R.layout.progress, null);
+
+        params=new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+
+        getWindow().addContentView(linearLayout,params);
+        linearLayout.setVisibility(View.GONE);
+
     }
 
     public void LoginButton(View view){
+        linearLayout.setVisibility(View.VISIBLE);
+
         try{
             sId = et_id.getText().toString();
             sPw = et_pw.getText().toString();
@@ -52,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     public class loginDB extends AsyncTask<Void, Integer, String> {
 
         String data = "";//이 값이 지금 class 내 전역변수로 작용하기 때문에 문제가 발생하는건가?
+
         @Override
         protected String doInBackground(Void... unused) {
 
@@ -60,11 +80,15 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("POST",param);//현재 적은 id, pw 값을 log에 띄우는 것 뿐
             try {
             /* 서버연결 */
+//                URL url = new URL("http://172.20.10.2/Haniem/Login.php");
                 URL url = new URL("http://211.178.109.157/Haniem/Login.php");
+
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setConnectTimeout(10000);
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
+
                 conn.connect();
 
             /* 안드로이드 -> 서버 파라메터값 전달 */
@@ -106,14 +130,35 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(data);
 
             if(data.equals("error")){
+                linearLayout.setVisibility(View.GONE);
+                Log.v("로그인 에러" , "네트워크 확인 바람");
 
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);//이거 넣어줘야 builder을 사용가능
+                if(data.equals("error"))
+                {
+                    alertBuilder
+                            .setTitle("네트워크 에러")
+                            .setIcon(R.drawable.smart_home_icon)
+                            .setMessage("네트워크 연결을 확인해주세요.")
+                            .setCancelable(true)
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                    AlertDialog dialog = alertBuilder.create();
+                    dialog.show();
+                }
             }else{
+                linearLayout.setVisibility(View.GONE);
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);//이거 넣어줘야 builder을 사용가능
                 if(data.equals("1"))
                 {
                     Log.e("RESULT","성공적으로 처리되었습니다!");
                     alertBuilder
                             .setTitle("로그인")
+                            .setIcon(R.drawable.smart_home_icon)
                             .setMessage("로그인 성공!")
                             .setCancelable(true)
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -129,9 +174,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else if(data.equals("0"))
                 {
+                    linearLayout.setVisibility(View.GONE);
                     Log.e("RESULT","비밀번호가 일치하지 않습니다.");
                     alertBuilder
                             .setTitle("로그인")
+                            .setIcon(R.drawable.smart_home_icon)
                             .setMessage("비밀번호가 일치하지 않습니다.")
                             .setCancelable(true)
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -144,10 +191,12 @@ public class LoginActivity extends AppCompatActivity {
                     dialog.show();
                 }
                 else { //1도 0도 아닌 값이 반환되면 에러발생한다. 아이디 다를 때
+                    linearLayout.setVisibility(View.GONE);
                     Log.e("RESULT","에러 발생! ERRCODE = " + data);
                     alertBuilder
                             .setTitle("로그인")
-                            .setMessage("등록중 에러가 발생했습니다!\n"+ data)
+                            .setIcon(R.drawable.smart_home_icon)
+                            .setMessage(data)
                             .setCancelable(true)
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override

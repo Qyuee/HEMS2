@@ -75,6 +75,7 @@ public class Inside_Appropriate_temp_Service extends Service {
 
         public void Network() {
             String ddd = "";
+//            String serverURL = "http://172.20.10.2/Haniem/Current_search_temp.php";
             String serverURL = "http://211.178.109.157/Haniem/Current_search_temp.php";
             try {
 

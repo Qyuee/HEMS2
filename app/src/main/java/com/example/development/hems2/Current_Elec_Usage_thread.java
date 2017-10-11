@@ -57,6 +57,7 @@ public class Current_Elec_Usage_thread extends Thread {
 
     public void Network() {
         String ddd = "";
+//        String serverURL = "http://172.20.10.2/Haniem/Current_value.php";
         String serverURL = "http://211.178.109.157/Haniem/Current_value.php";
         try {
             URL url = new URL(serverURL);

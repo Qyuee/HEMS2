@@ -57,6 +57,7 @@ public class Day_Elec_value_thread extends Thread {
 
     public void Network() {
         String ddd = "";
+//        String serverURL = "http://172.20.10.2/Haniem/Day_value.php";
         String serverURL = "http://211.178.109.157/Haniem/Day_value.php";
         try {
             URL url = new URL(serverURL);
@@ -100,7 +101,7 @@ public class Day_Elec_value_thread extends Thread {
                 ddd += "data:" + jOb.getString("room1_tot");
             }
 
-            //Log.d(TAG, "POST response  - " + ddd);
+            Log.d(TAG, "POST response  - " + ddd);
 
             Bundle data = new Bundle();
             data.putString("data", ddd.substring(5,9));

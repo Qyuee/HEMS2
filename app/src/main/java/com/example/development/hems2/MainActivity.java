@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView setting_info;
 
-    ImageView led_image;
+    private Button btnConnect;
 
     private int alarm_point=0;
     private int discomport_level=0;
@@ -75,14 +76,16 @@ public class MainActivity extends AppCompatActivity {
         Current_elec_value=(TextView) findViewById(R.id.Current_elec_value); // 현재 사용량 텍스트 연결
         Day_elec_value=(TextView) findViewById(R.id.Day_elec_value);        // 하루 사용량 텍스트 연결
 
-        led_image=(ImageView) findViewById(R.id.led_image);
+        //led_image=(ImageView) findViewById(R.id.led_image);
 
         weather_info_home_temp=(TextView) findViewById(R.id.weather_info_temp);
         weather_info_home_humi=(TextView) findViewById(R.id.weather_info_humi);
         Current_date_text=(TextView) findViewById(R.id.Current_date);
         inside_status=(TextView) findViewById(R.id.Inside_status);
 
-        setting_info=(TextView) findViewById(R.id.setting_value_info);
+        //setting_info=(TextView) findViewById(R.id.setting_value_info);
+
+        btnConnect=(Button) findViewById(R.id.btnConnect);
 
         cal = java.util.Calendar.getInstance();
 
@@ -114,15 +117,15 @@ public class MainActivity extends AppCompatActivity {
         service = new Intent(this, MainService.class);
         temp_service=new Intent(this, Inside_Appropriate_temp_Service.class);
 
-        if(option){
-            startService(service);
-            setting_info.setText("알람 설정됨");
-        }else{
-            setting_info.setText("알람 해제.");
-        }
+//        if(option){
+//            startService(service);
+//            setting_info.setText("알람 설정됨");
+//        }else{
+//            setting_info.setText("알람 해제.");
+//        }
 
         // LED On/Off 텍스트 연결
-        stat=(TextView) findViewById(R.id.stat);
+        //stat=(TextView) findViewById(R.id.stat);
     }
 
     //다른 액티비티에 이동했다가 홈화면으로 돌아오면 onResume 실행
@@ -131,12 +134,12 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-        if(option){
-            startService(service);
-            setting_info.setText("알람 설정됨");
-        }else{
-            setting_info.setText("알람 해제.");
-        }
+//        if(option){
+//            startService(service);
+//            setting_info.setText("알람 설정됨");
+//        }else{
+//            setting_info.setText("알람 해제.");
+//        }
 
         Log.e("OnResume() 호츌", "onResume() 호출 됨. option ="+option);
 
@@ -351,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
 
             Bundle bd=msg.getData();
             String data=bd.getString("data");
-            Current_elec_value.setText("현재 사용량 : "+data+" [W]");           // 일 평균 텍스트를 변경한다.
+            Current_elec_value.setText(data+"[W]");           // 일 평균 텍스트를 변경한다.
         }
     };
 
@@ -362,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
             //Log.e(TAG, "하루 사용량 관련 데이터 수신 스레드 실행.");
             Bundle bd=msg.getData();
             String data=bd.getString("data");
-            Day_elec_value.setText("하루 사용량 : "+data+" [KWH]");           // 일 평균 텍스트를 변경한다.
+            Day_elec_value.setText(data+" [KWH]");           // 일 평균 텍스트를 변경한다.
         }
     };
 
@@ -375,11 +378,9 @@ public class MainActivity extends AppCompatActivity {
 
             Log.e(TAG, "LED 조작 스레드 동작. status : "+status);
             if(status==1){
-                stat.setText("LED 켜짐");
-                led_image.setImageResource(R.drawable.led_on);
+                btnConnect.setBackgroundResource(R.drawable.ledon);
             }else{
-                stat.setText("LED 꺼짐");
-                led_image.setImageResource(R.drawable.led_off);
+                btnConnect.setBackgroundResource(R.drawable.ledoff);
             }
         }
     };
@@ -394,8 +395,8 @@ public class MainActivity extends AppCompatActivity {
             String temp=bd.getString("temp");
             String humi=bd.getString("humi");
 
-            weather_info_home_temp.setText("온도: "+temp+"도");
-            weather_info_home_humi.setText("습도: "+humi+"%");
+            weather_info_home_temp.setText(temp+"℃");
+            weather_info_home_humi.setText(humi+"%");
 
             temp_option = Integer.parseInt(alarm.getString("temp","1"));
             temp_alarm= alarm.getBoolean("temp_setting", true);
@@ -458,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            inside_status.setText("상태 : "+status);
+            inside_status.setText(status);
             ex_index=discomport_level;
         }
     };

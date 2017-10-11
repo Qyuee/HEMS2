@@ -65,7 +65,9 @@ public class JoinActivity extends AppCompatActivity {
             String param = "u_id=" + sId + "&u_pw=" + sPw + "";
             try {
                 /* 서버연결 */
+//                URL url = new URL("http://172.20.10.2/Haniem/Register.php");
                 URL url = new URL("http://211.178.109.157/Haniem/Register.php");
+
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");

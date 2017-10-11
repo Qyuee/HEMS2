@@ -68,6 +68,7 @@ public class MainService extends Service {
                     electNum=Integer.parseInt(elecsetting);
 
                     GetData task = new GetData();
+//                    task.execute("http://172.20.10.2/Haniem/setting.php");
                     task.execute("http://211.178.109.157/Haniem/setting.php");
                     i++;
                     Log.v("MainService ", "data 받기" +i);

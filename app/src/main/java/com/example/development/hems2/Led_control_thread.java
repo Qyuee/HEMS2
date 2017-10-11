@@ -59,6 +59,7 @@ public class Led_control_thread extends Thread {
 
     public void Network() {
         String ddd = "";
+//        String serverURL = "http://172.20.10.2/Haniem/Led_control.php";
         String serverURL = "http://211.178.109.157/Haniem/Led_control.php";
         try {
             URL url = new URL(serverURL);
