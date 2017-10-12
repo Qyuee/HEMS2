@@ -5,7 +5,6 @@
     android:title="Setting">
 
     <!-- 설정를 구성하는 Layout XML -->
-
     <PreferenceCategory
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:key="setting_activity_alarm"
@@ -57,7 +56,7 @@
             android:summary="실내 온도 알림 On/Off"/>
 
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="6"
             android:dependency="temp_setting"
             android:entries="@array/tempsetting"
             android:entryValues="@array/tempsetting_values"
@@ -98,6 +97,4 @@
             android:summary="Ver.1.0.09"/>
 
     </PreferenceCategory>
-
-
 </PreferenceScreen>

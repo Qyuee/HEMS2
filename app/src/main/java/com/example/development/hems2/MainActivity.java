@@ -17,12 +17,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "로그: ";
     private String status="측정중..";
+
+    DecimalFormat form_current_data;
 
     public Current_Elec_Usage_thread thread1;
     public Day_Elec_value_thread Day_elec_thread;
@@ -40,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnConnect;
 
-    private int alarm_point=0;
     private int discomport_level=0;
-    private int ex_index=0;
 
     private float temp=0;
     private float humi=0;
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         Log.e("onCreate() 호출","onCreate() 호출.");
 
         setContentView(R.layout.activity_main);
+
+        form_current_data=new DecimalFormat("##.##");
 
         Current_elec_value=(TextView) findViewById(R.id.Current_elec_value); // 현재 사용량 텍스트 연결
         Day_elec_value=(TextView) findViewById(R.id.Day_elec_value);        // 하루 사용량 텍스트 연결
@@ -115,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         option = alarm.getBoolean("alarmsetting",true);
 
         service = new Intent(this, MainService.class);
+
         temp_service=new Intent(this, Inside_Appropriate_temp_Service.class);
 
 //        if(option){
@@ -189,50 +193,53 @@ public class MainActivity extends AppCompatActivity {
         };
         t.start();
 
-//        Thread temp_service_check=new Thread(){
-//            @Override
-//            public void run(){
-//                String TAG="실시간 온습도 서비스";
-//                while (!isInterrupted()) {
-//                    Log.e(TAG, ""+tempServiceRunningCheck());
-//                    try {
-//                        SharedPreferences alarm = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-//                        temp_Service_flag = alarm.getBoolean("temp_setting",true);
-//
-//                        //service가 실행되고 있지않은지 확인후 다시 서비스 실행
-//                        if(temp_Service_flag) {
-//                            if(!tempServiceRunningCheck()) {
-//                                startService(temp_service);
-//                                Log.e(TAG, "서비스 시작!!");
-//                                Thread.sleep(8000);
-//                            }
-//                            else if(tempServiceRunningCheck()) {
-//                                Log.e(TAG, "서비스 이미 실행중, 중복실행 방지!!");
-//                                break;
-//                            }
-//
-//                        }
-//                        else if(!temp_Service_flag) {
-//                            if(!tempServiceRunningCheck()) {
-//                                Log.e(TAG, "서비스 죽어있음, 서비스종료 중복명령 방지!!");
-//                                break;
-//                            }
-//                            // temp_Service_flag 값이 false고 isServiceRunningCheck()가 true일 때
-//                            else if(tempServiceRunningCheck()) {
-//                                stopService(temp_service);
-//                                Log.e(TAG, "알람 꺼짐, 서비스종료!!");
-//                                break;
-//                            }
-//                        }
-//                    } catch(InterruptedException e){
-//                        e.printStackTrace();
-//                        Log.e("test", "알람 스레드 에러");
-//
-//                    }
-//                }
-//            }
-//        };
-//        temp_service_check.start();
+
+        Thread temp_service_check=new Thread(){
+            @Override
+            public void run(){
+                String TAG="실시간 온습도 알람 서비스";
+                while (!isInterrupted()) {
+                    Log.e(TAG, ""+tempServiceRunningCheck());
+
+                    try {
+                        SharedPreferences alarm = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        temp_Service_flag = alarm.getBoolean("temp_setting",true);
+
+                        //service가 실행되고 있지않은지 확인후 다시 서비스 실행
+                        if(temp_Service_flag && (option==true)) {
+                            if(!tempServiceRunningCheck()) {
+                                startService(temp_service);
+                                Log.e(TAG, "실시간 온습도 알람 서비스 시작!!");
+                                Thread.sleep(8000);
+
+                            } else if(tempServiceRunningCheck()) {
+                                Log.e(TAG, "서비스 이미 실행중, 중복실행 방지!!");
+                                break;
+                            }
+
+                        }
+                        else if(!temp_Service_flag || (option==false)) {
+                            if(!tempServiceRunningCheck()) {
+                                Log.e(TAG, "서비스 죽어있음, 서비스종료 중복명령 방지!!");
+                                break;
+
+                            }else if(tempServiceRunningCheck()) {
+                                // temp_Service_flag 값이 false고 isServiceRunningCheck()가 true일 때
+                                stopService(temp_service);
+                                Log.e(TAG, "알람 꺼짐, 서비스종료!!");
+                                break;
+                            }
+                        }
+
+                    } catch(InterruptedException e){
+                        e.printStackTrace();
+                        Log.e("test", "알람 스레드 에러");
+
+                    }
+                }
+            }
+        };
+        temp_service_check.start();
     }
 
     //서비스 중복실행 확인 메소드
@@ -354,6 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
             Bundle bd=msg.getData();
             String data=bd.getString("data");
+
             Current_elec_value.setText(data+"[W]");           // 일 평균 텍스트를 변경한다.
         }
     };
@@ -365,7 +373,16 @@ public class MainActivity extends AppCompatActivity {
             //Log.e(TAG, "하루 사용량 관련 데이터 수신 스레드 실행.");
             Bundle bd=msg.getData();
             String data=bd.getString("data");
-            Day_elec_value.setText(data+" [KWH]");           // 일 평균 텍스트를 변경한다.
+
+            float value=Float.parseFloat(data);
+
+//            Log.v(TAG, ""+value);
+
+            String final_value=form_current_data.format(value);
+
+//            Log.v(TAG, final_value);
+
+            Day_elec_value.setText(final_value+" [KWH]");           // 일 평균 텍스트를 변경한다.
         }
     };
 
@@ -376,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle bd=msg.getData();
             int status=bd.getInt("data");
 
-            Log.e(TAG, "LED 조작 스레드 동작. status : "+status);
+//            Log.e(TAG, "LED 조작 스레드 동작. status : "+status);
             if(status==1){
                 btnConnect.setBackgroundResource(R.drawable.ledon);
             }else{
@@ -397,11 +414,6 @@ public class MainActivity extends AppCompatActivity {
 
             weather_info_home_temp.setText(temp+"℃");
             weather_info_home_humi.setText(humi+"%");
-
-            temp_option = Integer.parseInt(alarm.getString("temp","1"));
-            temp_alarm= alarm.getBoolean("temp_setting", true);
-
-            Log.e(TAG, "alarm_point - "+alarm_point+", temp_option - "+temp_option+" ,temp_alarm - "+temp_alarm);
 
             // 여기서 형변환.
             float temp_f = Float.parseFloat(temp);
@@ -430,37 +442,7 @@ public class MainActivity extends AppCompatActivity {
                 status="쾌적";
             }
 
-            if(temp_alarm==true){
-                // 불쾌 지수가 변동이 있을 경우.
-                if(ex_index!=discomport_level){
-                    alarm_point++;
-                    if(alarm_point==10){
-                        // 불쾌 지수가 변동되었을 때, 높아지거나 낮아지거나.
-                        // 알림 팝업을 띄운다. + 현재의 불쾌지수 단계에 따른 추천 행동 제시. references 기상청.
-                        Intent temp_service=new Intent(MainActivity.this, Inside_Appropriate_temp_Service.class);
-                        temp_service.putExtra("temp", temp);
-                        temp_service.putExtra("humi", humi);
-                        temp_service.putExtra("level", Integer.toString(discomport_level));
-                        startService(temp_service);
-                    }
-                }else{
-                    // 1시간 정도를 체크하기 위한 카운터 변수 필요.
-                    alarm_point++;
-                    if(alarm_point==6){  // 360-> 1시간
-                        //알람 발생.
-                        Intent temp_service=new Intent(MainActivity.this, Inside_Appropriate_temp_Service.class);
-                        temp_service.putExtra("temp", temp);
-                        temp_service.putExtra("humi", humi);
-                        temp_service.putExtra("level", Integer.toString(discomport_level));
-                        startService(temp_service);
-                    }
-                    // 변동이 없을 때. 즉, 같은 상황 일 때.
-                    // 이 상황이 1시간 정도 지속되면 그에 맞는 추전 행동을 제시하는 팝업 띄움.
-                }
-            }
-
             inside_status.setText(status);
-            ex_index=discomport_level;
         }
     };
 

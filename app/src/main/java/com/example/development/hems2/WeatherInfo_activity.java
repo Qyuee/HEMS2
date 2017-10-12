@@ -35,9 +35,41 @@ public class WeatherInfo_activity extends AppCompatActivity {
 
     ArrayAdapter<CharSequence> adapter1, adapter2, adapter3;
     TextView today;
-    TextView tomorrow;
-    TextView day_after_tomorrow;
     Weather_thread weather_thread;
+
+    // 오늘 날씨 관련 TableRow, TextView, ImageView 변수들
+    private TextView today_area_info;
+
+    private TableRow today_first;
+    private TableRow today_second;
+    private TableRow today_third;
+    private TableRow today_forth;
+    private TableRow today_fifth;
+    private TableRow today_sixth;
+    private TableRow today_seven;
+    private TableRow today_eight;
+
+    private TextView today_first_text;
+    private TextView today_second_text;
+    private TextView today_third_text;
+    private TextView today_forth_text;
+    private TextView today_fifth_text;
+    private TextView today_sixth_text;
+    private TextView today_seven_text;
+    private TextView today_eight_text;
+
+    private ImageView today_first_image;
+    private ImageView today_second_image;
+    private ImageView today_third_image;
+    private ImageView today_forth_image;
+    private ImageView today_fifth_image;
+    private ImageView today_sixth_image;
+    private ImageView today_seven_image;
+    private ImageView today_eight_image;
+
+    TableRow[] today_row=null;
+    TextView[] today_te=null;
+    ImageView[] today_ti=null;
 
     // 내일 날씨 관련 TableRow, TextView, ImageView 변수들
     private TextView tomorrow_area_info;
@@ -121,13 +153,71 @@ public class WeatherInfo_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_info);
-        today=(TextView) findViewById(R.id.today);
-        //tomorrow=(TextView) findViewById(R.id.tomorrow);
-        //day_after_tomorrow=(TextView) findViewById(R.id.day_after_tomorrow);
 
         final Spinner s1=(Spinner) findViewById(R.id.select_area1);
         final Spinner s2=(Spinner) findViewById(R.id.select_area2);
         final Spinner s3=(Spinner) findViewById(R.id.select_area3);
+
+        //================================오늘 날씨 변수 연결================================
+        today_area_info=(TextView) findViewById(R.id.today_area_info);
+
+        today_row=new TableRow[8];
+        today_first=(TableRow) findViewById(R.id.today_first);
+        today_second=(TableRow) findViewById(R.id.today_second);
+        today_third=(TableRow) findViewById(R.id.today_third);
+        today_forth=(TableRow) findViewById(R.id.today_forth);
+        today_fifth=(TableRow) findViewById(R.id.today_fifth);
+        today_sixth=(TableRow) findViewById(R.id.today_sixth);
+        today_seven=(TableRow) findViewById(R.id.today_seven);
+        today_eight=(TableRow) findViewById(R.id.today_eight);
+
+        today_row[0]=today_first;
+        today_row[1]=today_second;
+        today_row[2]=today_third;
+        today_row[3]=today_forth;
+        today_row[4]=today_fifth;
+        today_row[5]=today_sixth;
+        today_row[6]=today_seven;
+        today_row[7]=today_eight;
+
+
+        today_te=new TextView[8];
+        today_first_text=(TextView) findViewById(R.id.today_first_text);
+        today_second_text=(TextView) findViewById(R.id.today_second_text);
+        today_third_text=(TextView) findViewById(R.id.today_third_text);
+        today_forth_text=(TextView) findViewById(R.id.today_forth_text);
+        today_fifth_text=(TextView) findViewById(R.id.today_fifth_text);
+        today_sixth_text=(TextView) findViewById(R.id.today_sixth_text);
+        today_seven_text=(TextView) findViewById(R.id.today_seven_text);
+        today_eight_text=(TextView) findViewById(R.id.today_eight_text);
+
+        today_te[0]=today_first_text;
+        today_te[1]=today_second_text;
+        today_te[2]=today_third_text;
+        today_te[3]=today_forth_text;
+        today_te[4]=today_fifth_text;
+        today_te[5]=today_sixth_text;
+        today_te[6]=today_seven_text;
+        today_te[7]=today_eight_text;
+
+        today_ti=new ImageView[8];
+        today_first_image=(ImageView) findViewById(R.id.today_first_image);
+        today_second_image=(ImageView) findViewById(R.id.today_second_image);
+        today_third_image=(ImageView) findViewById(R.id.today_third_image);
+        today_forth_image=(ImageView) findViewById(R.id.today_forth_image);
+        today_fifth_image=(ImageView) findViewById(R.id.today_fifth_image);
+        today_sixth_image=(ImageView) findViewById(R.id.today_sixth_image);
+        today_seven_image=(ImageView) findViewById(R.id.today_seven_image);
+        today_eight_image=(ImageView) findViewById(R.id.today_eight_image);
+
+        today_ti[0]=today_first_image;
+        today_ti[1]=today_second_image;
+        today_ti[2]=today_third_image;
+        today_ti[3]=today_forth_image;
+        today_ti[4]=today_fifth_image;
+        today_ti[5]=today_sixth_image;
+        today_ti[6]=today_seven_image;
+        today_ti[7]=today_eight_image;
 
         //================================내일 날씨 변수 연결================================
         tomorrow_area_info=(TextView) findViewById(R.id.tomorrow_area_info);
@@ -440,7 +530,7 @@ public class WeatherInfo_activity extends AppCompatActivity {
         weather_thread=new Weather_thread(handler, zoneCode);
         weather_thread.setDaemon(true);
         weather_thread.start();
-        Toast.makeText(getApplicationContext(), zoneCode, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), zoneCode, Toast.LENGTH_SHORT).show();
 
         linearLayout.setVisibility(View.VISIBLE);
     }
@@ -483,23 +573,19 @@ public class WeatherInfo_activity extends AppCompatActivity {
                 www[i][4]=humi[i];
             }
 
-
             // www[i][j] --> j가 0인 공간은 날짜 구분 숫자. 1-> 시간, 2->온도, 3->날씨상태, 4->습도.
-
             for(int i=0; i<hour.length; i++){
                 Log.e(Tag, "날짜 : "+www[i][0] +"  시간 : "+www[i][1] + "  온도 : "+www[i][2] + "  날씨 : "+www[i][3] + "  습도 : "+www[i][4]);
             }
 
-
-            today.setText("[오늘 예상 날씨]"+area+"\n"+today_info);
-           // tomorrow.setText("[내일 예상 날씨]"+"\n"+tomorrow_info);
-
+            String[] today_value=new String[8];
             String[] tomorrow_value=new String[8];
             String[] after_tomorrow_value=new String[8];
 
             String tomorrow_temp_max="";
             String tomorrow_temp_min="";
 
+            int today_index=0;
             int tomorrow_index=0;
             int after_tomorrow_index=0;
 
@@ -513,7 +599,11 @@ public class WeatherInfo_activity extends AppCompatActivity {
 //            }
 
             for(int i=0; i<day.length; i++){
-                if(day[i].equals("1")){
+
+                if(day[i].equals("0")){
+                    today_value[today_index]=www[i][1] + "  온도 : "+www[i][2]+"℃" + "  습도 : "+www[i][4]+"%";
+                    today_index++;
+                }else if(day[i].equals("1")){
                     tomorrow_value[tomorrow_index]=www[i][1] + "  온도 : "+www[i][2]+"℃" + "  습도 : "+www[i][4]+"%";
                     tomorrow_index++;
                 }else if(day[i].equals("2")){
@@ -522,8 +612,47 @@ public class WeatherInfo_activity extends AppCompatActivity {
                 }
             }
 
+            for(int i=0; i<today_index; i++){
+                if(today_value[i]==null){
+                    today_area_info.setText("오늘 날씨 - 데이터를 준비 중 입니다.");
+                    today_area_info.setWidth(today_area_info.getMaxWidth());
+                    today_area_info.setGravity(Gravity.CENTER);
+
+                    today_ti[i].setVisibility(View.GONE);
+                    today_te[i].setVisibility(View.GONE);
+                }else if(today_value[i]!=null){
+                    if(!today_value[i].equals("No Data")){
+
+                        today_row[i].setVisibility(View.VISIBLE);
+                        today_te[i].setText(today_value[i]);
+
+                        if(status[i].equals("구름 많음") && i<4){
+                            today_ti[i].setImageResource(R.drawable.over_cloudy_day);
+                        }else if(status[i].equals("구름 조금") && i<4){
+                            today_ti[i].setImageResource(R.drawable.cloudy_day);
+                        }else if(status[i].equals("맑음") && i<4){
+                            today_ti[i].setImageResource(R.drawable.sunny);
+                        }else if(status[i].equals("흐림")){
+                            today_ti[i].setImageResource(R.drawable.cloudy);
+                        }else if(status[i].equals("비")){
+                            today_ti[i].setImageResource(R.drawable.rainy);
+                        }else if(status[i].equals("맑음") && i>=4){
+                            today_ti[i].setImageResource(R.drawable.sunny_night);
+                        }else if(status[i].equals("구름 조금") && i>=4){
+                            today_ti[i].setImageResource(R.drawable.cloudy_night);
+                        }else if(status[i].equals("구름 많음") && i>=4){
+                            today_ti[i].setImageResource(R.drawable.over_cloudy_night);
+                        }
+                    }else if(today_value[i].equals("")){
+                        today_te[i].setVisibility(View.GONE);
+                    }
+                }
+            }
+
             for(int i=0; i<8; i++){
                 te[i].setText(tomorrow_value[i]);
+
+                // 내일 예상 날씨 정보 출력
 
                 if(status[i].equals("구름 많음") && i<4){
                     ti[i].setImageResource(R.drawable.over_cloudy_day);

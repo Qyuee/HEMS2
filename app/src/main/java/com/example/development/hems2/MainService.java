@@ -25,7 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainService extends Service {
-    private static String TAG = "phptest_MainActivity";
+    private static String TAG = "MainService";
 
     double electNum;
     String Data;
@@ -76,19 +76,18 @@ public class MainService extends Service {
                     if(push==1&& alarm_point==1){ //push 1이면 설정값이 DB값 넘었다는 뜻
                         alarm_point=2;
                         Fullpower_alarm();
-                        Log.v("MainService ", "100% 달성 노티피케이션 발생");
+//                        Log.v("MainService ", "100% 달성 노티피케이션 발생");
 
                         Thread.sleep(5000);
                         //최초 알림 발생후 5초간 sleep
                         // (주의, 정확히 1시간인지 테스트 안해봄)
-                    }
-                    else if(push==2) {  //설정값이 DB값(절반)을 넘지 않았다는뜻
-                        Log.v("MainService ", "DB 아직 안넘음 or 알림 이미 발생함.");
-                    }
-                    else if(push==3 && alarm_point==0) {  //push 3이면 설정 값이 DB값 절반을 넘었다는 뜻
+                    } else if(push==2) {  //설정값이 DB값(절반)을 넘지 않았다는뜻
+//                        Log.v("MainService ", "DB 아직 안넘음 or 알림 이미 발생함.");
+
+                    }else if(push==3 && alarm_point==0) {  //push 3이면 설정 값이 DB값 절반을 넘었다는 뜻
                         alarm_point=1;
                         Halfpower_alarm();
-                        Log.v("MainService ", "50% 달성 노티피케이션 발생");
+//                        Log.v("MainService ", "50% 달성 노티피케이션 발생");
 
                         Thread.sleep(5000);
                     }
@@ -116,7 +115,7 @@ public class MainService extends Service {
         super.onDestroy();
         t.interrupt();
 
-        Log.e("onDestroy", "서비스 종료");
+        Log.e("MainService", " onDestroy() 메인 서비스 종료");
     }
 
     @Override
@@ -136,8 +135,8 @@ public class MainService extends Service {
             Data=result;
             DBnum=Integer.parseInt(Data);
 
-            Log.v("MainService","받은 수치 : "+Data);
-            Log.v("MainService","설정된 수치 : "+electNum);
+//            Log.v("MainService","받은 수치 : "+Data);
+//            Log.v("MainService","설정된 수치 : "+electNum);
 
             // 알람이 이미 생성된 상태고 DB값이 설정 값보다 작다는 것은 재설정 되었다는 뜻.
             if(alarm_point==2 && DBnum<electNum){
@@ -156,21 +155,22 @@ public class MainService extends Service {
 
                 if(electNum<DBnum) {  //50퍼 넘었다면 100퍼도 넘었는지 확인
                     push = 1;
-                    Log.v("MainService ", "100퍼 넘음");
+//                    Log.v("MainService ", "100퍼 넘음");
 
                 }
                 else{
-                    Log.v("MainService ", "50퍼 넘음");
+//                    Log.v("MainService ", "50퍼 넘음");
                 }
 
             }
 
             else if(electNum>DBnum){  // 위에 조건문이 실행되지 않고 넘어가면 push 2 설정
                 push= 2;
-                Log.v("MainService ", "아직 안넘음");
+//                Log.v("MainService ", "아직 안넘음");
             }
-            else
-                Log.v("MainService ","잠시만 기다려주세요");
+            else {
+//                Log.v("MainService ", "잠시만 기다려주세요");
+            }
         }
 
 

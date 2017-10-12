@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:scrollbars="none"
-    android:background="@drawable/activity_backimage">
+    android:background="#dfe4de">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_focus_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.example.development.hems2.Focus_search_activity">
 
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="40dp"
+            android:layout_marginBottom="2mm"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_marginBottom="2mm"
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/calc_icon" />
+
+            <TextView
+                android:id="@+id/title_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:padding="3dp"
+                android:gravity="center_vertical"
+                android:text="상세조회/요금조회"
+                android:textColor="#ffffff"
+                android:textSize="10pt"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/title_text"
-                    android:padding="3dp"
-                    android:background="@drawable/round_box_white_text"
-                    android:text="상세조회/요금조회"
-                    android:textColor="#ffffff"
-                    android:textSize="9pt"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+        </LinearLayout>
 
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6mm"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
 
             <TabHost
                 android:id="@+id/tabHost1"
@@ -57,8 +67,8 @@
                         android:id="@android:id/tabs"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
-                        android:background="@drawable/round_box_white"
-                        android:layout_marginBottom="1mm"/>
+                        android:layout_marginBottom="1mm"
+                        android:background="@drawable/round_box_white" />
 
                     <!-- FrameLayout의 id값이 반드시 "tabcontent"로 지정되어야 함. -->
                     <FrameLayout
@@ -79,7 +89,7 @@
                                 android:id="@+id/select_date_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/round_box_white">
+                                android:background="@drawable/round_box_white_text">
 
                                 <!-- 버튼 2개를 포괄하는 레이아웃 -->
                                 <LinearLayout
@@ -115,11 +125,11 @@
                                         android:layout_margin="1mm">
 
                                         <TextView
-                                            android:textColor="#ffffff"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:gravity="left|center_horizontal"
                                             android:text="━ "
+                                            android:textColor="#ffffff"
                                             android:textSize="7pt"
                                             android:textStyle="bold" />
 
@@ -135,7 +145,6 @@
                                         android:orientation="horizontal">
 
                                         <Button
-                                            android:textColor="#ffffff"
                                             android:id="@+id/select_second_date"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -143,6 +152,7 @@
                                             android:background="@drawable/round_btn_focusactivity"
                                             android:onClick="btn2"
                                             android:text="종료 날짜"
+                                            android:textColor="#ffffff"
                                             android:textSize="6pt"
                                             android:textStyle="bold" />
                                     </LinearLayout>
@@ -156,7 +166,6 @@
                                     android:orientation="vertical">
 
                                     <Button
-                                        android:textColor="#ffffff"
                                         android:id="@+id/search"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
@@ -165,6 +174,7 @@
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="btn_search_date"
                                         android:text="조회"
+                                        android:textColor="#ffffff"
                                         android:textSize="6pt"
                                         android:textStyle="bold" />
 
@@ -180,70 +190,72 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:text="*요금고지서에 있는 검침일을 시작일로 하여야 정확도가 높습니다."
                                     android:textColor="#f20928"
-                                    android:textStyle="bold"
                                     android:textSize="6pt"
-                                    android:text="*요금고지서에 있는 검침일을 시작일로 하여야 정확도가 높습니다." />
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <!-- 기간별 조회의 레이아웃 조절 버튼. -->
                             <LinearLayout
                                 android:id="@+id/Detail_layout_headline"
-                                android:layout_marginTop="2mm"
-                                android:layout_gravity="center"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="2mm"
+                                android:background="@drawable/round_box_white_text"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1">
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|center_horizontal">
 
                                     <Button
-                                        android:textColor="#ffffff"
                                         android:id="@+id/button"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="80dp"
                                         android:layout_height="20dp"
-                                        android:layout_marginRight="10dp"
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="Detail_btn_graph"
                                         android:text="그래프"
+                                        android:textColor="#ffffff"
                                         android:textSize="5pt"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|center_horizontal">
 
                                     <Button
-                                        android:textColor="#ffffff"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="80dp"
                                         android:layout_height="20dp"
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="Detail_btn_charge"
                                         android:text="요금정보"
+                                        android:textColor="#ffffff"
                                         android:textSize="5pt"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|center_horizontal">
 
                                     <Button
-                                        android:textColor="#ffffff"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="80dp"
                                         android:layout_height="20dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:layout_marginLeft="10dp"
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="Detail_btn"
                                         android:text="조회내용"
+                                        android:textColor="#ffffff"
                                         android:textSize="5pt"
                                         android:textStyle="bold" />
                                 </LinearLayout>
@@ -253,16 +265,28 @@
                             <!-- 선택한 날짜에 따른 그래프를 그리는 부분.-->
                             <LinearLayout
                                 android:id="@+id/Based_Date_graph_layout"
-                                android:layout_marginTop="10dp"
-                                android:padding="5dp"
-                                android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/round_box_white_text"
+                                android:orientation="vertical"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:id="@+id/before_Date_search_graph"
+                                    android:textColor="#000000"
+                                    android:textStyle="bold"
+                                    android:textSize="8pt"
+                                    android:gravity="center"
+                                    android:text="※그래프 - 조회 후 출력 됩니다"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
 
                                 <com.github.mikephil.charting.charts.LineChart
                                     android:id="@+id/chart"
                                     android:layout_width="match_parent"
-                                    android:layout_height="400dip"/>
+                                    android:visibility="gone"
+                                    android:layout_height="400dip" />
 
                             </LinearLayout>
 
@@ -273,7 +297,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:background="@drawable/round_box_white"
+                                android:background="@drawable/round_box_white_text"
                                 android:orientation="vertical">
 
                                 <LinearLayout
@@ -291,8 +315,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="left"
                                         android:gravity="center_horizontal"
-                                        android:textColor="#000000"
                                         android:text="조회하고자 하는 범위를 선택하세요."
+                                        android:textColor="#000000"
                                         android:textSize="8pt" />
                                 </LinearLayout>
 
@@ -311,8 +335,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="left"
                                         android:gravity="left"
-                                        android:textColor="#000000"
                                         android:text="범위 지정 후 출력"
+                                        android:textColor="#000000"
                                         android:textSize="6pt" />
                                 </LinearLayout>
 
@@ -330,22 +354,41 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="left"
-                                        android:gravity="center_horizontal"
                                         android:layout_marginBottom="10dp"
+                                        android:gravity="center_horizontal"
                                         android:text="*실제 요금과 차이가 있을 수 있음(한국전력공사 요금 정보 기반)"
                                         android:textColor="#fa0404"
                                         android:textSize="5pt" />
                                 </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2mm"
+                                    android:layout_marginTop="2mm"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <Button
+                                        android:id="@+id/webview"
+                                        android:background="@drawable/round_btn_focusactivity"
+                                        android:text="한국 전력"
+                                        android:onClick="Go_Web"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+
+                                </LinearLayout>
                             </LinearLayout>
 
                             // 조회한 범위에 대한 텍스트 결과 레이아웃.
+
                             <LinearLayout
                                 android:id="@+id/Detail_layout"
-                                android:orientation="vertical"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/round_box_white_text"
+                                android:orientation="vertical">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -402,8 +445,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="left"
-                                        android:gravity="center_horizontal"
                                         android:layout_marginBottom="10dp"
+                                        android:gravity="center_horizontal"
                                         android:text="[평균 사용량 : No data]"
                                         android:textColor="#000000"
                                         android:textSize="8pt" />
@@ -426,9 +469,9 @@
                                 android:id="@+id/select_time_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/round_box_white">
+                                android:background="@drawable/round_box_white_text">
 
-                                <!-- 버튼 1개를 포괄하는 레이아웃 -->
+                                <!-- 버튼 2개를 포괄하는 레이아웃 -->
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -439,11 +482,10 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="1mm"
-                                        android:layout_weight="1"
+                                        android:layout_weight="5"
                                         android:orientation="horizontal">
 
                                         <Button
-                                            android:textColor="#ffffff"
                                             android:id="@+id/select_time_date"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -451,6 +493,7 @@
                                             android:background="@drawable/round_btn_focusactivity"
                                             android:onClick="btn_time_date"
                                             android:text="날짜 선택"
+                                            android:textColor="#ffffff"
                                             android:textSize="6pt"
                                             android:textStyle="bold" />
 
@@ -464,7 +507,6 @@
                                         android:orientation="horizontal">
 
                                         <Button
-                                            android:textColor="#ffffff"
                                             android:id="@+id/search_time"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -472,6 +514,7 @@
                                             android:background="@drawable/round_btn_focusactivity"
                                             android:onClick="btn_search_time"
                                             android:text="조회"
+                                            android:textColor="#ffffff"
                                             android:textSize="6pt"
                                             android:textStyle="bold" />
 
@@ -479,47 +522,50 @@
                                 </LinearLayout>
                             </LinearLayout>
 
-                            <!-- 시간별 조회의 세부내용 버튼.-->
+                            <!-- 일간별 조회의 세부내용 버튼.-->
                             <LinearLayout
                                 android:id="@+id/Detail_time_layout_headline"
-                                android:layout_marginTop="2mm"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="2mm"
+                                android:background="@drawable/round_box_white_text"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|center_horizontal">
 
                                     <Button
-                                        android:textColor="#ffffff"
                                         android:id="@+id/graph_time_btn"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="100dp"
                                         android:layout_height="20dp"
-                                        android:layout_marginRight="10dp"
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="graph_time_btn"
                                         android:text="그래프"
+                                        android:textColor="#ffffff"
                                         android:textSize="5pt"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|center_horizontal">
 
                                     <Button
-                                        android:textColor="#ffffff"
-                                        android:onClick="Detail_time_btn"
-                                        android:background="@drawable/round_btn_focusactivity"
-                                        android:text="조회내용"
-                                        android:textSize="5pt"
-                                        android:textStyle="bold"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="100dp"
                                         android:layout_height="20dp"
-                                        android:layout_marginRight="10dp" />
+                                        android:background="@drawable/round_btn_focusactivity"
+                                        android:onClick="Detail_time_btn"
+                                        android:text="조회내용"
+                                        android:textColor="#ffffff"
+                                        android:textSize="5pt"
+                                        android:textStyle="bold" />
 
                                 </LinearLayout>
 
@@ -528,16 +574,17 @@
                             <!-- 선택한 날짜에 따른 시간 그래프를 그리는 부분.-->
                             <LinearLayout
                                 android:id="@+id/Based_Time_graph_layout"
-                                android:layout_marginTop="10dp"
-                                android:padding="5dp"
-                                android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/round_box_white_text"
+                                android:visibility="gone"
+                                android:padding="5dp">
 
                                 <com.github.mikephil.charting.charts.LineChart
                                     android:id="@+id/chart_time"
                                     android:layout_width="match_parent"
-                                    android:layout_height="400dip"/>
+                                    android:layout_height="400dip" />
 
                             </LinearLayout>
 
@@ -545,11 +592,11 @@
                             <!-- 시간별 상세조회 레이아웃.-->
                             <LinearLayout
                                 android:id="@+id/Detail_time_layout"
-                                android:orientation="vertical"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/round_box_white_text"
+                                android:orientation="vertical">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -624,7 +671,7 @@
                                 android:id="@+id/select_month_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/round_box_white">
+                                android:background="@drawable/round_box_white_text">
 
                                 <!-- 버튼 2개를 포괄하는 레이아웃 -->
                                 <LinearLayout
@@ -641,7 +688,6 @@
                                         android:orientation="horizontal">
 
                                         <Button
-                                            android:textColor="#ffffff"
                                             android:id="@+id/select_first_month"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -649,6 +695,7 @@
                                             android:background="@drawable/round_btn_focusactivity"
                                             android:onClick="select_first_month"
                                             android:text="시작 월"
+                                            android:textColor="#ffffff"
                                             android:textSize="6pt"
                                             android:textStyle="bold" />
                                     </LinearLayout>
@@ -679,7 +726,6 @@
                                         android:orientation="horizontal">
 
                                         <Button
-                                            android:textColor="#ffffff"
                                             android:id="@+id/select_second_month"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -687,6 +733,7 @@
                                             android:background="@drawable/round_btn_focusactivity"
                                             android:onClick="select_second_month"
                                             android:text="종료 월"
+                                            android:textColor="#ffffff"
                                             android:textSize="6pt"
                                             android:textStyle="bold" />
                                     </LinearLayout>
@@ -700,7 +747,6 @@
                                     android:orientation="vertical">
 
                                     <Button
-                                        android:textColor="#ffffff"
                                         android:id="@+id/search_month"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
@@ -709,6 +755,7 @@
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="btn_search_month"
                                         android:text="조회"
+                                        android:textColor="#ffffff"
                                         android:textSize="6pt"
                                         android:textStyle="bold" />
 
@@ -724,70 +771,72 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:text="*요금고지서에 있는 검침일을 시작일로 하여야 정확도가 높습니다."
                                     android:textColor="#090df2"
-                                    android:textStyle="bold"
                                     android:textSize="6pt"
-                                    android:text="*요금고지서에 있는 검침일을 시작일로 하여야 정확도가 높습니다." />
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <!-- 기간별 조회의 레이아웃 조절 버튼. -->
                             <LinearLayout
                                 android:id="@+id/Detail_layout_headline_month"
-                                android:layout_marginTop="2mm"
-                                android:layout_gravity="center"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="2mm"
+                                android:background="@drawable/round_box_white_text"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1">
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|center_horizontal">
 
                                     <Button
-                                        android:textColor="#ffffff"
                                         android:id="@+id/button_graph_month"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="80dp"
                                         android:layout_height="20dp"
-                                        android:layout_marginRight="10dp"
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="Detail_btn_graph_month"
                                         android:text="그래프"
+                                        android:textColor="#ffffff"
                                         android:textSize="5pt"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|center_horizontal">
 
                                     <Button
-                                        android:textColor="#ffffff"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="80dp"
                                         android:layout_height="20dp"
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="Detail_btn_charge_month"
                                         android:text="요금정보"
+                                        android:textColor="#ffffff"
                                         android:textSize="5pt"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|center_horizontal">
 
                                     <Button
-                                        android:textColor="#ffffff"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="80dp"
                                         android:layout_height="20dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:layout_marginLeft="10dp"
                                         android:background="@drawable/round_btn_focusactivity"
                                         android:onClick="Detail_btn_month"
                                         android:text="조회내용"
+                                        android:textColor="#ffffff"
                                         android:textSize="5pt"
                                         android:textStyle="bold" />
                                 </LinearLayout>
@@ -797,16 +846,17 @@
                             <!-- 선택한 날짜에 따른 그래프를 그리는 부분.-->
                             <LinearLayout
                                 android:id="@+id/Based_month_graph_layout"
-                                android:layout_marginTop="10dp"
-                                android:padding="5dp"
-                                android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/round_box_white_text"
+                                android:visibility="gone"
+                                android:padding="5dp">
 
                                 <com.github.mikephil.charting.charts.LineChart
                                     android:id="@+id/chart_month"
                                     android:layout_width="match_parent"
-                                    android:layout_height="400dip"/>
+                                    android:layout_height="400dip" />
 
                             </LinearLayout>
 
@@ -817,7 +867,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:background="@drawable/round_box_white"
+                                android:background="@drawable/round_box_white_text"
                                 android:orientation="vertical">
 
                                 <LinearLayout
@@ -834,8 +884,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="left"
                                         android:gravity="center_horizontal"
-                                        android:textColor="#000000"
                                         android:text="조회하고자 하는 범위를 선택하세요."
+                                        android:textColor="#000000"
                                         android:textSize="8pt" />
                                 </LinearLayout>
 
@@ -854,8 +904,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="left"
                                         android:gravity="left"
-                                        android:textColor="#000000"
                                         android:text="범위 지정 후 출력"
+                                        android:textColor="#000000"
                                         android:textSize="6pt" />
                                 </LinearLayout>
 
@@ -872,8 +922,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="left"
-                                        android:gravity="center_horizontal"
                                         android:layout_marginBottom="10dp"
+                                        android:gravity="center_horizontal"
                                         android:text="*실제 요금과 차이가 있을 수 있음(한국전력공사 요금 정보 기반)"
                                         android:textColor="#fa0404"
                                         android:textSize="5pt" />
@@ -881,13 +931,14 @@
                             </LinearLayout>
 
                             // 조회한 범위에 대한 텍스트 결과 레이아웃.
+
                             <LinearLayout
                                 android:id="@+id/Detail_layout_month"
-                                android:orientation="vertical"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/round_box_white"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/round_box_white_text"
+                                android:orientation="vertical">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -944,8 +995,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="left"
-                                        android:gravity="center_horizontal"
                                         android:layout_marginBottom="10dp"
+                                        android:gravity="center_horizontal"
                                         android:text="[평균 사용량 : No data]"
                                         android:textColor="#000000"
                                         android:textSize="8pt" />

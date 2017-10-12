@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,13 +21,16 @@ public class SaveEnergyInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.v("SaveInfo","Oncreate 동작");
+
         setContentView(R.layout.activity_save_energy_info);
 
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         setTitle("전력절감안내");
-        toolbar.setTitleTextColor(Color.BLACK);
+        toolbar.setTitleTextColor(Color.WHITE);
 
         TabLayout tabLayout=(TabLayout) findViewById(R.id.tab_layout);
 
@@ -41,6 +45,7 @@ public class SaveEnergyInfo extends AppCompatActivity {
         recycleAllImageBitmap(tabLayout);
 
     }
+
 
     public static void recycleAllImageBitmap(ViewGroup viewGroup) {
         int count = viewGroup.getChildCount();

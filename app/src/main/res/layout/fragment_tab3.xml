@@ -15,9 +15,9 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:scaleType="fitXY"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
                 android:src="@drawable/safe1" />
 
         </LinearLayout>

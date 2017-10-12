@@ -77,7 +77,7 @@ public class Led_control_thread extends Thread {
             outputStream.flush();
             outputStream.close();
 
-            Log.d(TAG, "POST Transfer Data - " + postParameters);
+//            Log.d(TAG, "POST Transfer Data - " + postParameters);
             int responseStatusCode = httpURLConnection.getResponseCode();
 
             if (responseStatusCode == httpURLConnection.HTTP_OK) {
@@ -103,7 +103,7 @@ public class Led_control_thread extends Thread {
                 ddd += jOb.getString("status");
             }
 
-            Log.d(TAG, "POST response  - ddd" + ddd+", check="+check);
+//            Log.d(TAG, "POST response  - ddd" + ddd+", check="+check);
 
             if(check==1 || check==0){
                 Bundle data = new Bundle();

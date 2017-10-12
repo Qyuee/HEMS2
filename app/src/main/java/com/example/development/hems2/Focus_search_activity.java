@@ -1,12 +1,14 @@
 package com.example.development.hems2;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -41,6 +43,7 @@ import java.util.HashMap;
 public class Focus_search_activity extends AppCompatActivity {
 
     DecimalFormat decimalFormat=new DecimalFormat("###,###원");
+    private Button go_web;
 
     // 아래의 3가지 ArrayList는 tsak1(특정일 조회 통신 스레드)에서 받은 데이터를 id, date, avgs 에따라 각각으로 나누기 위해 사용한다.
     private ArrayList id=new ArrayList();
@@ -53,12 +56,14 @@ public class Focus_search_activity extends AppCompatActivity {
 
     private TextView title_text;
 
-    // "기간별 조회"의 세부사항 텍스트 뷰 변수.
+    // "선택 기간별 조회"의 세부사항 텍스트 뷰 변수.
     private TextView Detail_Max_Value=null;                     // 선택한 기간중 가장 높은 사용량을 표시할 텍스트.
     private TextView Deatil_Min_Value=null;                     // 선택한 기간중 가장 낮은 사용량을 표시할 텍스트.
     private TextView Detail_Avg_Value=null;                     // 선택한 기간의 평균 사용량.
     private TextView Detail_charge_range=null;
     private TextView Detail_charge_value=null;
+
+    private TextView before_Date_search_graph=null;
 
     // "시간별 조회"의 세부사항 텍스트 뷰 변수.
     private TextView Detail_Max_Value_time=null;
@@ -152,6 +157,12 @@ public class Focus_search_activity extends AppCompatActivity {
        //타이틀 텍스트 연결
        title_text=(TextView) findViewById(R.id.title_text);
 
+       // 기간별 조회의 조회 전 그래프 레이아웃 설명 텍스트
+       before_Date_search_graph=(TextView) findViewById(R.id.before_Date_search_graph);
+
+
+
+
        // 기간별 조회의 "시작 날짜", "종료 날짜" 버튼 연결.
        Select_first_date=(Button) findViewById(R.id.select_first_date);
        Select_second_date=(Button) findViewById(R.id.select_second_date);
@@ -203,6 +214,10 @@ public class Focus_search_activity extends AppCompatActivity {
        Detail_Min_Value_month=(TextView) findViewById(R.id.Detail_Min_Value_month);
        Detail_Avg_Value_month=(TextView) findViewById(R.id.Detail_Avg_Value_month);
 
+
+       // 그래프 레이아웃 연결.
+       lineChart = (LineChart) findViewById(R.id.chart);
+
        TabHost tabHost1=(TabHost) findViewById(R.id.tabHost1);
        tabHost1.setup();
 
@@ -223,6 +238,11 @@ public class Focus_search_activity extends AppCompatActivity {
 
        tabHost1.setCurrentTab(0);
 
+   }
+
+   public void Go_Web(View view){
+       Intent web=new Intent(getApplicationContext(), webview.class);
+       startActivity(web);
    }
 
 //+++++++++++++++++++++++++[기간별 조회 관련 메소드]+++++++++++++++++++++++++++++++++++
@@ -340,6 +360,8 @@ public class Focus_search_activity extends AppCompatActivity {
             else{
                 if(id_array.length>0){
                     // 그래프 그리는 메소드.
+                    before_Date_search_graph.setVisibility(View.GONE);   // 조회 하면 그래프 조회 전 설명 텍스트 사라짐.
+                    lineChart.setVisibility(View.VISIBLE);               // 조회 하면 그래프 레이아웃 등장.
                     drawGraph(id_array, date_array, avgs_array);
 
                     // 선택된 기간에 대한 요금 계산 메소드. -> 계산 후 텍스트 창에 출력해야 함.
@@ -471,25 +493,29 @@ public class Focus_search_activity extends AppCompatActivity {
             labels.add(date_array[i]);
         }
 
-        lineDataSet = new LineDataSet(entries, date_array[0]+"~"+date_array[date_array.length-1]+"의 사용량");
+        lineDataSet = new LineDataSet(entries, date_array[0]+"~"+date_array[date_array.length-1]+"의 사용량[wh]");
         lineDataSet.setColors(ColorTemplate.PASTEL_COLORS);     // 색상 관련.
         lineDataSet.setDrawCubic(true);                         // 각각의 포인트를 곡선으로 연결.
         lineDataSet.setDrawFilled(true);                        // 선아래로 색상표시
         lineDataSet.setColor(Color.BLACK);                      // 그래프 라인의 색상 표시.
         lineDataSet.setDrawValues(true);                        // 각 포인트의 값을 표시
-        lineDataSet.setFillColor(Color.BLUE);                // 선 아래의 채워지는 색상.
+        lineDataSet.setFillColor(Color.parseColor("#00ccff"));                   // 선 아래의 채워지는 색상.
         lineDataSet.setHighlightEnabled(false);                 // ???
+        lineDataSet.setCircleSize(3.5f);                         // 그래프의 꼭지점 원의 크기
 
         lineData = new LineData(labels, lineDataSet);
         lineData.setDrawValues(true);                           // 좌표 포인트 위에 데이터 수치 표시
         lineData.setHighlightEnabled(true);
         lineData.setValueTextSize(10);
 
-        lineChart = (LineChart) findViewById(R.id.chart);
         lineChart.setData(lineData);                        // set the data and list of lables into chart
         lineChart.getAxisRight().setEnabled(false);         // y축 우측 범위표 제거.
         lineChart.getAxisLeft();                            //lineChart.getAxisLeft().setEnabled(false);
                                                             // 가로 세부선 없애고 좌측 y축 범위표 삭제.(false)
+
+        lineChart.setGridBackgroundColor(Color.parseColor("#d6d6d6"));  // 그래프 바탕화면 색 -> 하늘색
+        lineChart.setDrawGridBackground(true);
+
 //        lineChart.setBackgroundColor(Color.WHITE);
         lineChart.setContentDescription("선택기간 사용량"); // ???
 //        lineChart.setBackgroundColor(Color.WHITE);        --> 그래프 레이아웃 테두리 색상이 바뀜.
@@ -497,14 +523,15 @@ public class Focus_search_activity extends AppCompatActivity {
 
 
         YAxis y = lineChart.getAxisRight();     // y축의 방향 조절 getAxisRight => 왼쪽
-        y.setDrawAxisLine(true);                //  ??
+        y.setDrawAxisLine(false);                //  ??
+        y.setDrawGridLines(false);
         y.setTextColor(Color.BLACK);            // 우측 범위 텍스트 색상 조절.
 
         XAxis x = lineChart.getXAxis();
         x.setAvoidFirstLastClipping(true);
         x.setTextColor(Color.BLACK);            // x축 라벨의 텍스트 색상
         x.setDrawAxisLine(false);               // ?? true와 false와 차이 못 찾음.
-        x.setDrawGridLines(true);               // x축 데이터에 대한 세부선(Grid line)을 그린다.
+        x.setDrawGridLines(false);               // x축 데이터에 대한 세부선(Grid line)을 그린다.
         x.setDrawLabels(true);                  // x축 라벨을 그린다.
         x.setEnabled(true);                     // 위의 XAis에 관련된 모든 것을 조절.
 
@@ -720,7 +747,7 @@ public class Focus_search_activity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "날짜를 선택하세요.", Toast.LENGTH_SHORT).show();
             }else{
                 // "시간별 조회"의 그래프 그리는 메소드.
-
+                Based_Time_graph_layout.setVisibility(View.VISIBLE);
                 drawGraph_time(result);
 
                 // 선택된 날짜에 대한 상세치 표시 메소드
@@ -827,7 +854,10 @@ public class Focus_search_activity extends AppCompatActivity {
         lineDataSet_time.setDrawFilled(true);                        // 선아래로 색상표시
         lineDataSet_time.setDrawValues(true);                        // 각 포인트의 값을 표시
         lineDataSet_time.setColor(Color.BLACK);                      // 그래프 라인의 색상 표시.
-        lineDataSet_time.setFillColor(Color.YELLOW);
+        lineDataSet_time.setFillColor(Color.RED);
+        lineDataSet_time.setCircleSize(3.5f);                         // 그래프의 꼭지점 원의 크기
+        lineDataSet_time.setCircleColor(Color.RED);
+        lineDataSet_time.setHighlightEnabled(true);
 
         lineData_time = new LineData(labels_time, lineDataSet_time);
         lineData_time.setDrawValues(true);                           // 좌표 포인트 위에 데이터 수치 표시
@@ -839,18 +869,21 @@ public class Focus_search_activity extends AppCompatActivity {
         lineChart_time.getAxisRight().setEnabled(false);         // y축 우측 범위표 제거.
         lineChart_time.getAxisLeft();                            //lineChart.getAxisLeft().setEnabled(false);
 
+        lineChart_time.setBorderColor(Color.WHITE);
+        lineChart_time.setGridBackgroundColor(Color.parseColor("#d6d6d6"));
         // 가로 세부선 없애고 좌측 y축 범위표 삭제.(false)
 
 
         YAxis y = lineChart_time.getAxisRight();     // y축의 방향 조절 getAxisRight => 왼쪽
-        y.setDrawAxisLine(true);                //  ??
+        y.setDrawAxisLine(false);                //  ??
+        y.setDrawGridLines(false);
         y.setTextColor(Color.BLACK);            // 우측 범위 텍스트 색상 조절.
 
         XAxis x = lineChart_time.getXAxis();
         x.setAvoidFirstLastClipping(true);
         x.setTextColor(Color.BLACK);            // x축 라벨의 텍스트 색상
         x.setDrawAxisLine(false);               // ?? true와 false와 차이 못 찾음.
-        x.setDrawGridLines(true);               // x축 데이터에 대한 세부선(Grid line)을 그린다.
+        x.setDrawGridLines(false);               // x축 데이터에 대한 세부선(Grid line)을 그린다.
         x.setDrawLabels(true);                  // x축 라벨을 그린다.
         x.setEnabled(true);                     // 위의 XAis에 관련된 모든 것을 조절.
 
@@ -1106,6 +1139,8 @@ public class Focus_search_activity extends AppCompatActivity {
                     // 그래프 그리는 메소드.
                     //Toast.makeText(getApplicationContext(), avgs_array[0]+", "+avgs_array[1], Toast.LENGTH_SHORT).show();
 
+                    Based_month_graph_layout.setVisibility(View.VISIBLE);
+
                     drawGraph_month(date_array, avgs_array);
 
                     HashMap<String, Integer[]> calc=CalcCharge_month(date_array,avgs_array);
@@ -1228,14 +1263,16 @@ public class Focus_search_activity extends AppCompatActivity {
             labels_month.add(date_array[i]+"월");
         }
 
-        lineDataSet_month = new LineDataSet(entries_month, date_array[0]+"월"+"~"+date_array[date_array.length-1]+"월의 사용량");
+        lineDataSet_month = new LineDataSet(entries_month, date_array[0]+"월"+"~"+date_array[date_array.length-1]+"월의 사용량[Kwh]");
         lineDataSet_month.setColors(ColorTemplate.PASTEL_COLORS);     // 색상 관련.
         lineDataSet_month.setDrawCubic(true);                         // 각각의 포인트를 곡선으로 연결.
         lineDataSet_month.setDrawFilled(true);                        // 선아래로 색상표시
         lineDataSet_month.setColor(Color.BLACK);                      // 그래프 라인의 색상 표시.
         lineDataSet_month.setDrawValues(true);                        // 각 포인트의 값을 표시
-        lineDataSet_month.setFillColor(Color.BLUE);                   // 선 아래의 채워지는 색상.
-        lineDataSet_month.setHighlightEnabled(false);                 // ???
+        lineDataSet_month.setFillColor(Color.parseColor("#ffa64d"));                   // 선 아래의 채워지는 색상.
+        lineDataSet_month.setHighlightEnabled(true);                 // ???
+        lineDataSet_month.setCircleSize(3.5f);                         // 그래프의 꼭지점 원의 크기
+        lineDataSet_month.setCircleColor(Color.parseColor("#ffa64d"));
 
         lineData_month = new LineData(labels_month, lineDataSet_month);
         lineData_month.setDrawValues(true);                           // 좌표 포인트 위에 데이터 수치 표시
@@ -1249,19 +1286,29 @@ public class Focus_search_activity extends AppCompatActivity {
         // 가로 세부선 없애고 좌측 y축 범위표 삭제.(false)
 //        lineChart.setBackgroundColor(Color.WHITE);
         lineChart_month.setContentDescription("선택기간 사용량"); // ???
+
+        // no description text
+//        lineChart_month.setContentDescription("월간 조회");
+
 //        lineChart.setBackgroundColor(Color.WHITE);        --> 그래프 레이아웃 테두리 색상이 바뀜.
         lineChart_month.setBorderColor(Color.WHITE);
+        lineChart_month.setGridBackgroundColor(Color.parseColor("#d6d6d6"));  // 그래프 바탕화면 색 -> 하늘색
+
+        lineChart_month.setDrawGridBackground(true);                        //
+
+        //lineChart_month.setBackgroundColor(Color.parseColor("#d6d6d6"));
 
 
         YAxis y = lineChart_month.getAxisRight();     // y축의 방향 조절 getAxisRight => 왼쪽
-        y.setDrawAxisLine(true);                //  ??
+        y.setDrawAxisLine(false);                //  ??
+        y.setDrawGridLines(false);
         y.setTextColor(Color.BLACK);            // 우측 범위 텍스트 색상 조절.
 
         XAxis x = lineChart_month.getXAxis();
         x.setAvoidFirstLastClipping(true);
         x.setTextColor(Color.BLACK);            // x축 라벨의 텍스트 색상
         x.setDrawAxisLine(false);               // ?? true와 false와 차이 못 찾음.
-        x.setDrawGridLines(true);               // x축 데이터에 대한 세부선(Grid line)을 그린다.
+        x.setDrawGridLines(false);               // x축 데이터에 대한 세부선(Grid line)을 그린다.
         x.setDrawLabels(true);                  // x축 라벨을 그린다.
         x.setEnabled(true);                     // 위의 XAis에 관련된 모든 것을 조절.
 

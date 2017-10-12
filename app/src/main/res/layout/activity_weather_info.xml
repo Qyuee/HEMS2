@@ -3,18 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:scrollbars="none"
-    android:background="@drawable/activity_backimage">
+    android:background="#dfe4de"
+    android:scrollbars="none">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.example.development.hems2.MainActivity">
 
         <LinearLayout
@@ -31,26 +27,35 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="2mm"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/weather_icon" />
 
                     <TextView
-                        android:background="@drawable/round_box_white_text"
-                        android:textSize="9pt"
-                        android:padding="3dp"
-                        android:textStyle="bold"
-                        android:textColor="#ffffff"
-                        android:text="날씨 정보 조회"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:padding="3dp"
+                        android:gravity="center_vertical"
+                        android:text="날씨 정보 조회"
+                        android:textColor="#ffffff"
+                        android:textSize="10pt"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
+                android:layout_margin="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right">
@@ -58,7 +63,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="18dp"
+                    android:layout_height="20dp"
                     android:layout_weight="5"
                     android:background="@drawable/round_box_white"
                     android:weightSum="1">
@@ -70,9 +75,7 @@
                         <Spinner
                             android:id="@+id/select_area1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                        </Spinner>
+                            android:layout_height="wrap_content"></Spinner>
                     </LinearLayout>
 
                     <LinearLayout
@@ -107,270 +110,467 @@
                     android:layout_height="wrap_content">
 
                     <Button
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/weather_title_text"
                         android:onClick="search"
-                        android:background="@drawable/test"
-                        android:textStyle="bold"
-                        android:textSize="7pt"
                         android:text="조회"
-                        android:layout_width="45dp"
-                        android:layout_height="24dp" />
+                        android:textSize="7pt"
+                        android:textStyle="bold" />
                 </LinearLayout>
-
             </LinearLayout>
 
+            <!-- 오늘 날씨 정보 출력 레이아웃 -->
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="1mm"
-                android:background="@drawable/round_box_white_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/round_box_white_text"
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <TextView
-                    android:gravity="left|center_horizontal"
-                    android:id="@+id/today"
+                    android:id="@+id/today_area_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/weather_title_text"
+                    android:padding="4dp"
+                    android:text="오늘 예보 날씨"
+                    android:textColor="#ffffff"
                     android:textSize="8pt"
-                    android:textStyle="bold"
+                    android:textStyle="bold" />
+
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:id="@+id/today_first"
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/today_first_image"
+                            android:layout_width="0.1dp"
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
+
+                        <TextView
+                            android:id="@+id/today_first_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="6pt"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/today_second"
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/today_second_image"
+                            android:layout_width="0.1dp"
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
+
+                        <TextView
+                            android:id="@+id/today_second_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="6pt"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/today_third"
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/today_third_image"
+                            android:layout_width="0.1dp"
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
+
+                        <TextView
+                            android:id="@+id/today_third_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="6pt"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/today_forth"
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/today_forth_image"
+                            android:layout_width="0.1dp"
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
+
+                        <TextView
+                            android:id="@+id/today_forth_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="6pt"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/today_fifth"
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/today_fifth_image"
+                            android:layout_width="0.1dp"
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
+
+                        <TextView
+                            android:id="@+id/today_fifth_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/today_sixth"
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/today_sixth_image"
+                            android:layout_width="0.1dp"
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
+
+                        <TextView
+                            android:id="@+id/today_sixth_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/today_seven"
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/today_seven_image"
+                            android:layout_width="0.1dp"
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
+
+                        <TextView
+                            android:id="@+id/today_seven_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/today_eight"
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/today_eight_image"
+                            android:layout_width="0.1dp"
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
+
+                        <TextView
+                            android:id="@+id/today_eight_text"
+                            android:layout_margin="1dp"
+                            android:layout_span="4"
+                            android:background="@drawable/weather_table_text"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                </TableLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="1mm"
-                android:background="@drawable/round_box_white_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/round_box_white_text"
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/tomorrow_area_info"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:textSize="8pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
+                    android:background="@drawable/weather_title_text"
                     android:padding="4dp"
                     android:text="내일 날씨"
-                    android:background="@drawable/weather_table_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#ffffff"
+                    android:textSize="8pt"
+                    android:textStyle="bold" />
 
                 <TableLayout
-                    android:stretchColumns="*"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:padding="4dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:stretchColumns="*">
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/tomorrow_first">
+                        android:id="@+id/tomorrow_first"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/tomorrow_first_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/tomorrow_first_text"
                             android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
+                            android:gravity="center"
                             android:padding="3dp"
-                            android:text="내일 시간" />
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="6pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/tomorrow_second">
+                        android:id="@+id/tomorrow_second"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/tomorrow_second_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/tomorrow_second_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="6pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/tomorrow_third">
+                        android:id="@+id/tomorrow_third"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/tomorrow_third_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/tomorrow_third_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="6pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/tomorrow_forth">
+                        android:id="@+id/tomorrow_forth"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/tomorrow_forth_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/tomorrow_forth_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="6pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/tomorrow_fifth">
+                        android:id="@+id/tomorrow_fifth"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/tomorrow_fifth_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/tomorrow_fifth_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/tomorrow_sixth">
+                        android:id="@+id/tomorrow_sixth"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/tomorrow_sixth_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/tomorrow_sixth_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/tomorrow_seven">
+                        android:id="@+id/tomorrow_seven"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/tomorrow_seven_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/tomorrow_seven_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/tomorrow_eight">
+                        android:id="@+id/tomorrow_eight"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/tomorrow_eight_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/tomorrow_eight_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
@@ -381,220 +581,224 @@
             <!--모레 날씨 정보 출력 -->
             <LinearLayout
                 android:id="@+id/after_tomorrow_layout"
-                android:orientation="vertical"
-                android:layout_marginTop="1mm"
-                android:background="@drawable/round_box_white_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/round_box_white_text"
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/after_tomorrow_area_info"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:textSize="8pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
+                    android:background="@drawable/weather_title_text"
                     android:padding="4dp"
                     android:text="모레 날씨"
-                    android:background="@drawable/weather_table_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#ffffff"
+                    android:textSize="8pt"
+                    android:textStyle="bold" />
 
                 <TableLayout
-                    android:stretchColumns="*"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:padding="4dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:stretchColumns="*">
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/after_tomorrow_first">
+                        android:id="@+id/after_tomorrow_first"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/after_tomorrow_first_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/after_tomorrow_first_text"
                             android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
+                            android:gravity="center"
                             android:padding="3dp"
-                            android:text="내일 시간" />
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/after_tomorrow_second">
+                        android:id="@+id/after_tomorrow_second"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/after_tomorrow_second_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/after_tomorrow_second_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/after_tomorrow_third">
+                        android:id="@+id/after_tomorrow_third"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/after_tomorrow_third_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/after_tomorrow_third_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/after_tomorrow_forth">
+                        android:id="@+id/after_tomorrow_forth"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/after_tomorrow_forth_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/after_tomorrow_forth_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/after_tomorrow_fifth">
+                        android:id="@+id/after_tomorrow_fifth"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/after_tomorrow_fifth_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/after_tomorrow_fifth_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/after_tomorrow_sixth">
+                        android:id="@+id/after_tomorrow_sixth"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/after_tomorrow_sixth_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/after_tomorrow_sixth_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/after_tomorrow_seven">
+                        android:id="@+id/after_tomorrow_seven"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/after_tomorrow_seven_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/after_tomorrow_seven_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginBottom="3dp"
-                        android:id="@+id/after_tomorrow_eight">
+                        android:id="@+id/after_tomorrow_eight"
+                        android:layout_marginBottom="3dp">
 
                         <ImageView
                             android:id="@+id/after_tomorrow_eight_image"
                             android:layout_width="0.1dp"
-                            android:scaleType="centerInside"
-                            android:contentDescription="" />
+                            android:contentDescription=""
+                            android:scaleType="centerInside" />
 
                         <TextView
-                            android:textSize="8pt"
-                            android:gravity="center"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
                             android:id="@+id/after_tomorrow_eight_text"
-                            android:padding="3dp"
+                            android:layout_margin="1dp"
                             android:layout_span="4"
                             android:background="@drawable/weather_table_text"
-                            android:layout_margin="1dp"
-                            android:text="내일 시간" />
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="내일 시간"
+                            android:textColor="#000000"
+                            android:textSize="7pt"
+                            android:textStyle="bold" />
 
                     </TableRow>
 

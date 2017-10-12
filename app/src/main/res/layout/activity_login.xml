@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="3dp"
+                    android:padding="5dp"
                     android:text="HEMS System - 가정 전력 관리 시스템"
                     android:textColor="#ffffff"
                     android:textSize="20dp"
@@ -140,7 +140,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5mm"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="5mm">
 
             <EditText
                 android:id="@+id/IdText"
@@ -151,8 +152,8 @@
                 android:background="@drawable/login_title_text"
                 android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:drawableStart="@drawable/ic_person_black_24dp"
-                android:hint="이메일"
                 android:ems="10"
+                android:hint="이메일"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:textColor="#ffffff"
@@ -179,34 +180,111 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginBottom="85dp"
             android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:background="@drawable/login_title_text"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/join_icon" />
+
+                <Button
+                    android:id="@+id/JoinButton"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorPrimary"
+                    android:onClick="JoinButton"
+                    android:text="회원가입"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:background="@drawable/login_title_text"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/login_icon" />
+
+                <Button
+                    android:id="@+id/LoginButton"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorPrimary"
+                    android:onClick="LoginButton"
+                    android:text="로그인"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<Button-->
+            <!--android:id="@+id/JoinButton"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@color/colorPrimaryDark"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:onClick="JoinButton"-->
+            <!--android:textStyle="bold"-->
+            <!--android:text="회원가입"-->
+            <!--android:textSize="15dp" />-->
+            <!--</LinearLayout>-->
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:background="#c1c1c1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/LoginButton"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryDark"
                 android:gravity="center"
-                android:onClick="LoginButton"
-                android:text="로그인"
-                android:textColor="#ffffff"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+                android:textStyle="italic"
+                android:textSize="5pt"
+                android:text="Copyright 2017. 17-개발-P503" />
 
-            <Button
-                android:id="@+id/JoinButton"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="#ffffff"
-                android:onClick="JoinButton"
-                android:text="회원가입"
-                android:textSize="15dp" />
+                android:gravity="center"
+                android:textStyle="italic"
+                android:textSize="5pt"
+                android:text="all rights reserved" />
 
         </LinearLayout>
     </LinearLayout>

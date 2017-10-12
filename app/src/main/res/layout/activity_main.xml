@@ -29,32 +29,32 @@
 
             <Button
                 android:id="@+id/person"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="262dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/information_btn_image"
+                android:background="@drawable/information"
                 android:clickable="true"
                 android:onClick="saveEnergyInfo_btn" />
 
             <Button
                 android:id="@+id/weatherInfo_button"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/wheather2"
+                android:background="@drawable/weather_icon"
                 android:onClick="btn_weather"
                 android:textSize="6pt"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/setting"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
 
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/setting_btn_image"
+                android:background="@drawable/settings"
                 android:clickable="true"
                 android:onClick="setting" />
 

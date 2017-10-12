@@ -98,13 +98,13 @@ public class Day_Elec_value_thread extends Thread {
             JSONArray json = new JSONArray(sb.toString());
             for (int i = 0; i < json.length(); i++) {
                 JSONObject jOb = json.getJSONObject(i);        // 각각의 json 오브젝트의 키워드 값을 가지고 데이터를 문자열로 변경.
-                ddd += "data:" + jOb.getString("room1_tot");
+                ddd += jOb.getString("room1_tot");
             }
 
             Log.d(TAG, "POST response  - " + ddd);
 
             Bundle data = new Bundle();
-            data.putString("data", ddd.substring(5,9));
+            data.putString("data", ddd);
 
             Message msg = handler.obtainMessage();
             msg.setData(data);

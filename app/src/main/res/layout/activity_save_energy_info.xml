@@ -6,22 +6,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/main"
+    android:background="#dfe4de"
     tools:context="com.example.development.hems2.SaveEnergyInfo">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#10000000"
+        android:background="#4CCB64"
+        android:orientation="vertical"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
 
+            <android.support.v7.widget.AppCompatImageView
+                android:background="@drawable/information"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout"
