@@ -1,14 +1,14 @@
 package com.example.development.hems2;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -42,8 +42,30 @@ import java.util.HashMap;
 
 public class Focus_search_activity extends AppCompatActivity {
 
+    // 탭 호스트 변수
+    TabHost tabHost1=null;
+
+    TabHost.TabSpec ts1=null;
+    TabHost.TabSpec ts2=null;
+    TabHost.TabSpec ts3=null;
+
     DecimalFormat decimalFormat=new DecimalFormat("###,###원");
-    private Button go_web;
+
+    // 상세/요금 조회 최상위 타이틀 레이아웃
+    private LinearLayout focus_title_layout=null;
+
+    // 요금정보 레이아웃, 텍스트 뷰
+    private LinearLayout after_search_date_chaege1=null;
+    private LinearLayout after_search_date_chaege2=null;
+    private LinearLayout after_search_date_chaege3=null;
+
+    private LinearLayout after_search_Month_charge_layout=null;
+
+    private TextView before_Date_search_charge_text=null;
+
+    // 상세 정보 텍스트 뷰
+    private TextView before_Date_search_detail_text=null;
+    private LinearLayout after_search_detail_layout=null;
 
     // 아래의 3가지 ArrayList는 tsak1(특정일 조회 통신 스레드)에서 받은 데이터를 id, date, avgs 에따라 각각으로 나누기 위해 사용한다.
     private ArrayList id=new ArrayList();
@@ -63,12 +85,19 @@ public class Focus_search_activity extends AppCompatActivity {
     private TextView Detail_charge_range=null;
     private TextView Detail_charge_value=null;
 
+    // 조회 전 그래프 대신에 출력되는 텍스트 뷰 변수
     private TextView before_Date_search_graph=null;
+    private TextView before_time_search_graph=null;
+    private TextView before_Month_search_graph=null;
 
     // "시간별 조회"의 세부사항 텍스트 뷰 변수.
     private TextView Detail_Max_Value_time=null;
     private TextView Detail_Min_Value_time=null;
     private TextView Detail_Avg_Value_time=null;
+
+    // "시간별 조회"의 조회를 하기 전의 조회내용 텍스트, 레이아웃
+    private TextView before_time_search_detail_text=null;
+    private LinearLayout after_time_search_detail_layout=null;
 
 
     // "월별 조회"의 요금조회 텍스트 뷰 변수.
@@ -77,6 +106,10 @@ public class Focus_search_activity extends AppCompatActivity {
     private TextView Detail_Max_Value_month=null;
     private TextView Detail_Min_Value_month=null;
     private TextView Detail_Avg_Value_month=null;
+
+    private TextView before_Month_search_charge_text=null;
+    private LinearLayout after_Month_search_detail_layout=null;
+    private TextView before_Month_search_detail_text=null;
 
 
     private Button Select_first_date=null;                      // "기간별 조회"의 "시작 날짜" 버튼
@@ -149,19 +182,51 @@ public class Focus_search_activity extends AppCompatActivity {
     ArrayList<String> labels_month=new ArrayList<>();
     ArrayList<Entry> entries_month=new ArrayList<>();
 
+    // 프로그래스바 레이아웃 정의 변수
+    LinearLayout linearLayout=null;
+
+    // 프로그래스바 레이아웃 옵션 변수
+    LinearLayout.LayoutParams params=null;
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_focus_search);
 
+       // 타이틀 레이아웃 연결
+       focus_title_layout=(LinearLayout) findViewById(R.id.focus_title_layout);
+
        //타이틀 텍스트 연결
        title_text=(TextView) findViewById(R.id.title_text);
 
+       // 기간별 요금정보 레이아웃 연결
+       after_search_date_chaege1=(LinearLayout) findViewById(R.id.after_search_date_chaege1);
+       after_search_date_chaege2=(LinearLayout) findViewById(R.id.after_search_date_chaege2);
+       after_search_date_chaege3=(LinearLayout) findViewById(R.id.after_search_date_chaege3);
+
+       after_search_Month_charge_layout=(LinearLayout) findViewById(R.id.after_search_Month_charge_layout);
+
+       // 기간별 상세정보 텍스트, 레이아웃 연결
+       before_Date_search_detail_text=(TextView) findViewById(R.id.before_Date_search_detail_text);
+       after_search_detail_layout=(LinearLayout) findViewById(R.id.after_search_detail_layout);
+       before_Date_search_charge_text=(TextView) findViewById(R.id.before_Date_search_charge_text);
+
+       // 시간별 조회의 조회 전 설명 텍스트 뷰, 레이아웃
+       before_time_search_detail_text=(TextView) findViewById(R.id.before_time_search_detail_text);
+       after_time_search_detail_layout=(LinearLayout) findViewById(R.id.after_time_search_detail_layout);
+
+
        // 기간별 조회의 조회 전 그래프 레이아웃 설명 텍스트
        before_Date_search_graph=(TextView) findViewById(R.id.before_Date_search_graph);
+       // 시간별 조회의 조회 전 그래프 레이아웃 설명 텍스트
+       before_time_search_graph=(TextView) findViewById(R.id.before_time_search_graph);
+       // 월간별 조회의 조회 전 그래프 레이아웃 설명 텍스트
+       before_Month_search_graph=(TextView) findViewById(R.id.before_month_search_graph);
 
-
-
+       // "월간 조회"의 조회 전 요금정보 설명 텍스트
+       before_Month_search_charge_text=(TextView) findViewById(R.id.before_Month_search_charge_text);
+       after_Month_search_detail_layout=(LinearLayout) findViewById(R.id.after_Month_search_detail_layout);
+       before_Month_search_detail_text=(TextView) findViewById(R.id.before_Month_search_detail_text);
 
        // 기간별 조회의 "시작 날짜", "종료 날짜" 버튼 연결.
        Select_first_date=(Button) findViewById(R.id.select_first_date);
@@ -217,33 +282,68 @@ public class Focus_search_activity extends AppCompatActivity {
 
        // 그래프 레이아웃 연결.
        lineChart = (LineChart) findViewById(R.id.chart);
+       lineChart_time=(LineChart) findViewById(R.id.chart_time);
+       lineChart_month = (LineChart) findViewById(R.id.chart_month);
 
-       TabHost tabHost1=(TabHost) findViewById(R.id.tabHost1);
+
+       // 프로그래스바 레이아웃 연결
+       LayoutInflater inflater=(LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+       linearLayout=(LinearLayout)inflater.inflate(R.layout.progress, null);
+
+
+       // 프로그래스바 레이아웃 옵션 설정
+       params=new LinearLayout.LayoutParams(
+               LinearLayout.LayoutParams.MATCH_PARENT,
+               LinearLayout.LayoutParams.MATCH_PARENT
+       );
+
+       getWindow().addContentView(linearLayout, params);
+       linearLayout.setVisibility(View.GONE);
+
+       tabHost1=(TabHost) findViewById(R.id.tabHost1);
        tabHost1.setup();
 
-       TabHost.TabSpec ts1=tabHost1.newTabSpec("Tab Spec 1");
+       ts1=tabHost1.newTabSpec("Tab Spec 1");
        ts1.setContent(R.id.content1);
        ts1.setIndicator("주간");
        tabHost1.addTab(ts1);
 
-       TabHost.TabSpec ts2=tabHost1.newTabSpec("Tab Spec 2");
+       ts2=tabHost1.newTabSpec("Tab Spec 2");
        ts2.setContent(R.id.content2);
        ts2.setIndicator("일간");
        tabHost1.addTab(ts2);
 
-       TabHost.TabSpec ts3=tabHost1.newTabSpec("Tab Spec 3");
+       ts3=tabHost1.newTabSpec("Tab Spec 3");
        ts3.setContent(R.id.content3);
        ts3.setIndicator("월간");
        tabHost1.addTab(ts3);
 
        tabHost1.setCurrentTab(0);
 
+       tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).setBackgroundResource(R.drawable.selected_tab_theme);
+
+       tabhost_custom t=new tabhost_custom();
+
+       tabHost1.setOnTabChangedListener(t);
+
    }
 
-   public void Go_Web(View view){
-       Intent web=new Intent(getApplicationContext(), webview.class);
-       startActivity(web);
+   public class tabhost_custom implements TabHost.OnTabChangeListener {
+
+       @Override
+       public void onTabChanged(String tabid){
+           //tabHost1.getTabWidget().getChildAt(0).setBackgroundColor(Color.parseColor("#ffa64d"));
+
+           for(int i=0; i<tabHost1.getTabWidget().getChildCount(); i++){
+               tabHost1.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.non_selected_tab_theme);  // 초록 색
+           }
+
+//           Log.e("!!!",""+tabHost1.getTabWidget().getChildAt(0));
+
+           tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).setBackgroundResource(R.drawable.selected_tab_theme);  // 현재 선택한 탭만
+       }
    }
+
 
 //+++++++++++++++++++++++++[기간별 조회 관련 메소드]+++++++++++++++++++++++++++++++++++
 //   선택한 날짜에 맞는 데이터가 존재하지 않을 경우에 대한 예외 처리 필요함.
@@ -297,6 +397,7 @@ public class Focus_search_activity extends AppCompatActivity {
 
     // "기간별 조회"의 "조회"버튼 눌렀을 때.        --> 백그라운드 호출.
     public void btn_search_date(View v){
+        linearLayout.setVisibility(View.VISIBLE);
         //Toast.makeText(getApplicationContext(), "기간별 조회 합니다.", Toast.LENGTH_SHORT).show();
         task=new selected_data();
 
@@ -340,6 +441,7 @@ public class Focus_search_activity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
+            linearLayout.setVisibility(View.GONE);
             //Toast.makeText(getApplicationContext(), first_Year+"."+first_Month+"."+first_Day, Toast.LENGTH_SHORT).show();
             Log.d(TAG1, "POST response  - " + result);
 
@@ -362,6 +464,15 @@ public class Focus_search_activity extends AppCompatActivity {
                     // 그래프 그리는 메소드.
                     before_Date_search_graph.setVisibility(View.GONE);   // 조회 하면 그래프 조회 전 설명 텍스트 사라짐.
                     lineChart.setVisibility(View.VISIBLE);               // 조회 하면 그래프 레이아웃 등장.
+
+                    before_Date_search_charge_text.setVisibility(View.GONE);
+                    after_search_date_chaege1.setVisibility(View.VISIBLE);
+                    after_search_date_chaege2.setVisibility(View.VISIBLE);
+                    after_search_date_chaege3.setVisibility(View.VISIBLE);
+
+                    before_Date_search_detail_text.setVisibility(View.GONE);
+                    after_search_detail_layout.setVisibility(View.VISIBLE);
+
                     drawGraph(id_array, date_array, avgs_array);
 
                     // 선택된 기간에 대한 요금 계산 메소드. -> 계산 후 텍스트 창에 출력해야 함.
@@ -513,7 +624,7 @@ public class Focus_search_activity extends AppCompatActivity {
         lineChart.getAxisLeft();                            //lineChart.getAxisLeft().setEnabled(false);
                                                             // 가로 세부선 없애고 좌측 y축 범위표 삭제.(false)
 
-        lineChart.setGridBackgroundColor(Color.parseColor("#d6d6d6"));  // 그래프 바탕화면 색 -> 하늘색
+        lineChart.setGridBackgroundColor(Color.parseColor("#f1f4f0"));  // 그래프 뒤 화면 색
         lineChart.setDrawGridBackground(true);
 
 //        lineChart.setBackgroundColor(Color.WHITE);
@@ -593,9 +704,9 @@ public class Focus_search_activity extends AppCompatActivity {
         String min=String.format("%.2f", min_value);
         String avg=String.format("%.2f", sum_value/avgs_array.length);
 
-        Detail_Max_Value.setText("최고 사용량 : "+max+" [wh]");
-        Deatil_Min_Value.setText("최저 사용량 : "+min+" [wh]");
-        Detail_Avg_Value.setText("평균 사용량 : "+avg+" [wh]");
+        Detail_Max_Value.setText("최고 사용량\n"+max+" [wh]");
+        Deatil_Min_Value.setText("최저 사용량\n"+min+" [wh]");
+        Detail_Avg_Value.setText("평균 사용량\n"+avg+" [wh]");
     }
 
     // 선택 날짜에 따른 요금 정보 계산 및 출력 메소드.
@@ -747,7 +858,12 @@ public class Focus_search_activity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "날짜를 선택하세요.", Toast.LENGTH_SHORT).show();
             }else{
                 // "시간별 조회"의 그래프 그리는 메소드.
-                Based_Time_graph_layout.setVisibility(View.VISIBLE);
+                before_time_search_graph.setVisibility(View.GONE);
+                lineChart_time.setVisibility(View.VISIBLE);
+
+                before_time_search_detail_text.setVisibility(View.GONE);
+                after_time_search_detail_layout.setVisibility(View.VISIBLE);
+
                 drawGraph_time(result);
 
                 // 선택된 날짜에 대한 상세치 표시 메소드
@@ -864,13 +980,12 @@ public class Focus_search_activity extends AppCompatActivity {
         lineData_time.setHighlightEnabled(true);
         lineData_time.setValueTextSize(10);
 
-        lineChart_time = (LineChart) findViewById(R.id.chart_time);
         lineChart_time.setData(lineData_time);                        // set the data and list of lables into chart
         lineChart_time.getAxisRight().setEnabled(false);         // y축 우측 범위표 제거.
         lineChart_time.getAxisLeft();                            //lineChart.getAxisLeft().setEnabled(false);
 
         lineChart_time.setBorderColor(Color.WHITE);
-        lineChart_time.setGridBackgroundColor(Color.parseColor("#d6d6d6"));
+        lineChart_time.setGridBackgroundColor(Color.parseColor("#f1f4f0"));
         // 가로 세부선 없애고 좌측 y축 범위표 삭제.(false)
 
 
@@ -908,6 +1023,7 @@ public class Focus_search_activity extends AppCompatActivity {
 
     // "그래프" 버튼 눌렀을 때. -> 그래프 창 출력/사라짐
     public void Detail_btn_graph(View v){
+
         if(Based_date_graph_layout.getVisibility()==View.VISIBLE){
             Based_date_graph_layout.setVisibility(View.GONE);
         }else{
@@ -934,9 +1050,9 @@ public class Focus_search_activity extends AppCompatActivity {
         String min=String.format("%.2f", min_value);
         String avg=String.format("%.2f", sum_value/reslut.length-3);
 
-        Detail_Max_Value_time.setText("최고 사용량 : "+max+" [wh]");
-        Detail_Min_Value_time.setText("최저 사용량 : "+min+" [wh]");
-        Detail_Avg_Value_time.setText("평균 사용량 : "+avg+" [wh]");
+        Detail_Max_Value_time.setText("최고 사용량\n"+max+" [wh]");
+        Detail_Min_Value_time.setText("최저 사용량\n"+min+" [wh]");
+        Detail_Avg_Value_time.setText("평균 사용량\n"+avg+" [wh]");
     }
 
 //******************************************************************************************************
@@ -1139,7 +1255,14 @@ public class Focus_search_activity extends AppCompatActivity {
                     // 그래프 그리는 메소드.
                     //Toast.makeText(getApplicationContext(), avgs_array[0]+", "+avgs_array[1], Toast.LENGTH_SHORT).show();
 
-                    Based_month_graph_layout.setVisibility(View.VISIBLE);
+                    before_Month_search_graph.setVisibility(View.GONE);   // 조회 하면 그래프 조회 전 설명 텍스트 사라짐.
+                    lineChart_month.setVisibility(View.VISIBLE);               // 조회 하면 그래프 레이아웃 등장.
+
+                    before_Month_search_charge_text.setVisibility(View.GONE);
+                    after_search_Month_charge_layout.setVisibility(View.VISIBLE);
+
+                    before_Month_search_detail_text.setVisibility(View.GONE);
+                    after_Month_search_detail_layout.setVisibility(View.VISIBLE);
 
                     drawGraph_month(date_array, avgs_array);
 
@@ -1279,7 +1402,6 @@ public class Focus_search_activity extends AppCompatActivity {
         lineData_month.setHighlightEnabled(true);
         lineData_month.setValueTextSize(10);
 
-        lineChart_month = (LineChart) findViewById(R.id.chart_month);
         lineChart_month.setData(lineData_month);                        // set the data and list of lables into chart
         lineChart_month.getAxisRight().setEnabled(false);         // y축 우측 범위표 제거.
         lineChart_month.getAxisLeft();                            //lineChart.getAxisLeft().setEnabled(false);
@@ -1292,7 +1414,7 @@ public class Focus_search_activity extends AppCompatActivity {
 
 //        lineChart.setBackgroundColor(Color.WHITE);        --> 그래프 레이아웃 테두리 색상이 바뀜.
         lineChart_month.setBorderColor(Color.WHITE);
-        lineChart_month.setGridBackgroundColor(Color.parseColor("#d6d6d6"));  // 그래프 바탕화면 색 -> 하늘색
+        lineChart_month.setGridBackgroundColor(Color.parseColor("#f1f4f0"));  // 그래프 바탕화면 색 -> 하늘색
 
         lineChart_month.setDrawGridBackground(true);                        //
 
@@ -1447,8 +1569,8 @@ public class Focus_search_activity extends AppCompatActivity {
         String min=String.format("%.0f", min_value);
         String avg=String.format("%.0f", sum_value/date_month.size());
 
-        Detail_Max_Value_month.setText("최고 사용량("+date_month.get(maxIndex)+"월"+"): "+max+" [wh]");
-        Detail_Min_Value_month.setText("최저 사용량("+date_month.get(minIndex)+"월"+") : "+min+" [wh]");
-        Detail_Avg_Value_month.setText("평균 사용량 : "+avg+" [wh]");
+        Detail_Max_Value_month.setText("최고 사용량("+date_month.get(maxIndex)+"월"+")\n"+max+" [wh]");
+        Detail_Min_Value_month.setText("최저 사용량("+date_month.get(minIndex)+"월"+")\n"+min+" [wh]");
+        Detail_Avg_Value_month.setText("평균 사용량\n"+avg+" [wh]");
     }
 }

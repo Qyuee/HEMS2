@@ -147,31 +147,63 @@
         </LinearLayout>
 
         <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/linearLayout5"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout4"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp">
 
             <TextView
                 android:id="@+id/Day_elec_value"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="No Data"
-                android:textAlignment="textEnd"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:gravity="bottom"
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp">
+                <TextView
+                    android:id="@+id/estimated_charge_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_vertical"
+                    android:gravity="center_horizontal"
+                    android:text="예상 요금 : 000,00 원"
+                    android:textColor="#ffffff"
+                    android:textSize="8pt"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/standard_date_today_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_vertical"
+                    android:gravity="center_horizontal"
+                    android:text="기준일~오늘 사용량 : 000 [Kwh]"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/estimated_charge_day_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/main_setting_day"
+                    android:onClick="estimated_charge_day_setting"
+                    android:text="기준일 설정"
+                    android:textColor="#ffffff" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

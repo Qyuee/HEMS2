@@ -2,9 +2,11 @@ package com.example.development.hems2;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -14,9 +16,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
@@ -26,12 +31,14 @@ public class MainActivity extends AppCompatActivity {
     private String status="측정중..";
 
     DecimalFormat form_current_data;
+    DecimalFormat current_charge;
 
     public Current_Elec_Usage_thread thread1;
     public Day_Elec_value_thread Day_elec_thread;
     public Current_home_temp_thread thread2;
     public Led_control_thread stat_Led_thread;
     public Led_control_thread Led_thread;
+    public Estimated_charge_thread estimated_charge_thread;
 
     TextView Current_elec_value;
     TextView Day_elec_value;
@@ -39,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     TextView weather_info_home_humi;
     TextView inside_status;
 
-    TextView setting_info;
+    TextView estimated_charge_text;
+    TextView standard_date_today_total;
 
     private Button btnConnect;
 
@@ -66,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
     int temp_option=0;
     boolean temp_alarm=true;
 
+    SharedPreferences pref=null;
+    SharedPreferences.Editor editor=null;
+
+    DatePickerDialog dpd=null;
+    int selected_day=0;
+    private Button setting_day;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +89,13 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        form_current_data=new DecimalFormat("##.##");
+        form_current_data=new DecimalFormat("###.##");
+
+        current_charge=new DecimalFormat("#,###[원]");
+
+
+        estimated_charge_text=(TextView) findViewById(R.id.estimated_charge_text);
+        standard_date_today_total=(TextView) findViewById(R.id.standard_date_today_total);
 
         Current_elec_value=(TextView) findViewById(R.id.Current_elec_value); // 현재 사용량 텍스트 연결
         Day_elec_value=(TextView) findViewById(R.id.Day_elec_value);        // 하루 사용량 텍스트 연결
@@ -121,15 +142,20 @@ public class MainActivity extends AppCompatActivity {
 
         temp_service=new Intent(this, Inside_Appropriate_temp_Service.class);
 
-//        if(option){
-//            startService(service);
-//            setting_info.setText("알람 설정됨");
-//        }else{
-//            setting_info.setText("알람 해제.");
-//        }
 
-        // LED On/Off 텍스트 연결
-        //stat=(TextView) findViewById(R.id.stat);
+        // 예상 요금 계산 기준일을 default 1일로 한다. key 값은 'day'
+        pref=getSharedPreferences("Based_day", Activity.MODE_PRIVATE);
+        editor=pref.edit();
+        selected_day=pref.getInt("day",1);
+
+        // 기준일 버튼
+        setting_day=(Button) findViewById(R.id.estimated_charge_day_setting);
+        setting_day.setText("기준일 설정 - "+selected_day+"일");
+
+        // 현재까지의 요금 계산하는 스레드 준비
+        estimated_charge_thread=new Estimated_charge_thread(Estimated_handler, selected_day, MainActivity.this);
+        estimated_charge_thread.setDaemon(true);
+        estimated_charge_thread.start();
     }
 
     //다른 액티비티에 이동했다가 홈화면으로 돌아오면 onResume 실행
@@ -138,20 +164,13 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-//        if(option){
-//            startService(service);
-//            setting_info.setText("알람 설정됨");
-//        }else{
-//            setting_info.setText("알람 해제.");
-//        }
-
         Log.e("OnResume() 호츌", "onResume() 호출 됨. option ="+option);
 
         Thread t=new Thread(){
             @Override
             public void run(){
                 while (!isInterrupted()) {
-                    Log.e("서비스 실행 여부", ""+isServiceRunningCheck());
+                    Log.e("메인 서비스 실행 여부", "★"+isServiceRunningCheck());
                     try {
                         SharedPreferences alarm = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                         option = alarm.getBoolean("alarmsetting",true);
@@ -161,31 +180,31 @@ public class MainActivity extends AppCompatActivity {
                             //service가 실행되고 있지않은지 확인후 다시 서비스 실행
                             if(!isServiceRunningCheck()) {
                                 startService(service);
-                                Log.e(TAG, "서비스 시작!!");
+                                Log.e("메인 서비스", "★서비스 시작!!");
                                 Thread.sleep(8000);
                             }
                             else if(isServiceRunningCheck()) {
-                                Log.e(TAG, "서비스 이미 실행중, 중복실행 방지!!");
+                                Log.e("메인 서비스", "★메인 서비스 이미 실행중, 중복실행 방지!!");
                                 break;
                             }
 
                         }
                         else if(!option) {
                             if(!isServiceRunningCheck()) {
-                                Log.e(TAG, "서비스 죽어있음, 서비스종료 중복명령 방지!!");
+                                Log.e("메인 서비스", "★메인 서비스 죽어있음, 서비스종료 중복명령 방지!!");
                                 break;
                             }
                             // option 값이 false고 isServiceRunningCheck()가 true일 때
                             else if(isServiceRunningCheck()) {
                                 stopService(service);
-                                Log.e(TAG, "알람 꺼짐, 서비스종료!!");
+                                Log.e("메인 서비스", "★메인 서비스 알람 꺼짐, 서비스종료!!");
                                 break;
                             }
                         }
 
                     } catch(InterruptedException e){
                         e.printStackTrace();
-                        Log.e("test", "알람 스레드 에러");
+                        Log.e("메인 서비스", "★메인 서비스 알람 스레드 에러");
 
                     }
                 }
@@ -199,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             public void run(){
                 String TAG="실시간 온습도 알람 서비스";
                 while (!isInterrupted()) {
-                    Log.e(TAG, ""+tempServiceRunningCheck());
+                    Log.e(TAG, "◆"+tempServiceRunningCheck());
 
                     try {
                         SharedPreferences alarm = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -209,31 +228,31 @@ public class MainActivity extends AppCompatActivity {
                         if(temp_Service_flag && (option==true)) {
                             if(!tempServiceRunningCheck()) {
                                 startService(temp_service);
-                                Log.e(TAG, "실시간 온습도 알람 서비스 시작!!");
+                                Log.e(TAG, "◆실시간 온습도 알람 서비스 시작!!");
                                 Thread.sleep(8000);
 
                             } else if(tempServiceRunningCheck()) {
-                                Log.e(TAG, "서비스 이미 실행중, 중복실행 방지!!");
+                                Log.e(TAG, "◆서비스 이미 실행중, 중복실행 방지!!");
                                 break;
                             }
 
                         }
                         else if(!temp_Service_flag || (option==false)) {
                             if(!tempServiceRunningCheck()) {
-                                Log.e(TAG, "서비스 죽어있음, 서비스종료 중복명령 방지!!");
+                                Log.e(TAG, "◆서비스 죽어있음, 서비스종료 중복명령 방지!!");
                                 break;
 
                             }else if(tempServiceRunningCheck()) {
                                 // temp_Service_flag 값이 false고 isServiceRunningCheck()가 true일 때
                                 stopService(temp_service);
-                                Log.e(TAG, "알람 꺼짐, 서비스종료!!");
+                                Log.e(TAG, "◆알람 꺼짐, 서비스종료!!");
                                 break;
                             }
                         }
 
                     } catch(InterruptedException e){
                         e.printStackTrace();
-                        Log.e("test", "알람 스레드 에러");
+                        Log.e(TAG, "◆알람 스레드 에러");
 
                     }
                 }
@@ -328,6 +347,109 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // 예상 요금 계산의 기준일 설정 버튼
+    public void estimated_charge_day_setting(View v){
+        Calendar c = Calendar.getInstance();
+        int cyear = c.get(Calendar.YEAR);
+        int cmonth = c.get(Calendar.MONTH);
+        int today=c.get(Calendar.DATE);
+        int cday = selected_day;
+        DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                //날짜가 선택 된 이후 할일
+                //ex.텍스트뷰에 날짜를 표시등등
+
+                // 선택한 날짜를 저장
+                editor.putInt("day",dayOfMonth);
+                editor.commit();
+
+                selected_day=pref.getInt("day",1);
+
+                Toast.makeText(getApplicationContext(), "선택한 day 확인 : "+pref.getInt("day",100), Toast.LENGTH_SHORT).show();
+                setting_day.setText("기준일 설정 - "+selected_day+"일");
+                estimated_charge_thread.interrupt();
+
+                estimated_charge_thread=new Estimated_charge_thread(Estimated_handler, selected_day, MainActivity.this);
+                estimated_charge_thread.setDaemon(true);
+                estimated_charge_thread.start();
+
+            }
+        };
+        dpd = new DatePickerDialog(this, mDateSetListener, cyear,
+                cmonth, cday-1);
+
+        dpd.getDatePicker().init(cyear, cmonth, cday, new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // TODO Auto-generated method stub
+                dpd.setTitle("기준일 선택");
+            }
+        });
+
+        Calendar calendar = Calendar.getInstance();
+//        현재 년도 표현을 max로 설정하여 현재 년도 이후 년도는 나오지 않도록 설정
+        dpd.getDatePicker().setMaxDate(calendar.getTimeInMillis()); // 날짜의 최대 = 오늘
+        Calendar cal = Calendar.getInstance();
+//        cal.set(Calendar.YEAR, 2000);
+        cal.set(Calendar.DATE, 2);
+//        2000년를 min으로 설정하여 2000년 이전 년도는 나오지 않도록 설정
+        dpd.getDatePicker().setMinDate(cal.getTimeInMillis());  // 날짜의 최소 값
+        dpd.setTitle("기준일 선택");
+
+        try {
+            java.lang.reflect.Field[] datePickerDialogFields = dpd.getClass().getDeclaredFields();
+            for (java.lang.reflect.Field datePickerDialogField : datePickerDialogFields) {
+//                Log.e("date",""+datePickerDialogFields[0].getName());
+//                Log.e("date",""+datePickerDialogFields[1].getName());
+//                Log.e("date",""+datePickerDialogFields[2].getName());
+//                Log.e("date",""+datePickerDialogFields[3].getName());
+//                Log.e("date",""+datePickerDialogFields[4].getName());
+//                Log.e("date",""+datePickerDialogFields[5].getName());
+
+                if (datePickerDialogField.getName().equals("mDatePicker")) {
+                    datePickerDialogField.setAccessible(true);
+
+                    DatePicker datePicker = (DatePicker) datePickerDialogField.get(dpd);
+                    java.lang.reflect.Field[] datePickerFields = datePickerDialogField.getType().getDeclaredFields();
+                    for (java.lang.reflect.Field datePickerField : datePickerFields) {
+                        // Log.i("test", datePickerField.getName());
+                        if (android.os.Build.VERSION.SDK_INT >= 21) {
+                            int yearSpinnerId = Resources.getSystem().getIdentifier("year", "id", "android");
+                            if (yearSpinnerId != 0) {
+                                View yearSpinner = datePicker.findViewById(yearSpinnerId);
+                                if (yearSpinner != null) {
+                                    yearSpinner.setVisibility(View.GONE);
+                                }
+                            }
+                            int MonthSpinnerId = Resources.getSystem().getIdentifier("month", "id", "android");
+                            if (MonthSpinnerId != 0) {
+                                View monthSpinner = datePicker.findViewById(MonthSpinnerId);
+                                if (monthSpinner != null) {
+                                    monthSpinner.setVisibility(View.GONE);
+                                }
+                            }
+                        } else {
+                            if ("mYearSpinner".equals(datePickerField.getName()) || "mYearSpinner".equals(datePickerField.getName()) || "mMonthPicker".equals(datePickerField.getName())
+                                    || "mMonthSpinner".equals(datePickerField
+                                    .getName())) {
+                                datePickerField.setAccessible(true);
+                                Object dayPicker = new Object();
+                                dayPicker = datePickerField.get(datePicker);
+                                ((View) dayPicker).setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }
+            }
+        }catch (Exception ex){
+
+        }
+
+        dpd.show();
+    }
+
     // 뒤로가기 눌렀을 때.
     @Override
     public void onBackPressed(){
@@ -344,6 +466,7 @@ public class MainActivity extends AppCompatActivity {
                         thread2.interrupt();
                         Day_elec_thread.interrupt();
                         stat_Led_thread.interrupt();
+                        estimated_charge_thread.interrupt();
                         //Led_thread.interrupt();
                         finish();
                     }
@@ -357,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
     Handler Crruent_elec_handler = new Handler(){
         @Override
         public void handleMessage(Message msg){
-            //Log.e(TAG, "현재 사용량 관련 데이터 수신 스레드 실행.");
+            Log.v("[현재 사용량 스레드 동작]", "현재 사용량 관련 데이터 수신 스레드 실행.");
 
             Bundle bd=msg.getData();
             String data=bd.getString("data");
@@ -366,11 +489,26 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // 현재 요금 계산 스레드 핸들러
+    Handler Estimated_handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            Log.v("[오늘 까지 요금 스레드]", "요금 계산 스레드 실행.");
+
+            Bundle bd=msg.getData();
+            int charge=bd.getInt("charge");
+            int total=bd.getInt("total");
+
+            estimated_charge_text.setText("실시간 요금 : "+current_charge.format(charge));
+            standard_date_today_total.setText(selected_day+"일~"+cal.get(Calendar.DATE)+"일 사용량 : "+total+"[Kwh]");
+        }
+    };
+
     // 하루 사용량 스레드 핸들러
     Handler Day_ele_value_handler = new Handler(){
         @Override
         public void handleMessage(Message msg){
-            //Log.e(TAG, "하루 사용량 관련 데이터 수신 스레드 실행.");
+            Log.v("[하루 사용량 스레드 동작]", "하루 사용량 관련 데이터 수신 스레드 실행.");
             Bundle bd=msg.getData();
             String data=bd.getString("data");
 
@@ -393,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle bd=msg.getData();
             int status=bd.getInt("data");
 
-//            Log.e(TAG, "LED 조작 스레드 동작. status : "+status);
+            Log.e(TAG, "LED 조작 스레드 동작. status : "+status);
             if(status==1){
                 btnConnect.setBackgroundResource(R.drawable.ledon);
             }else{
@@ -407,7 +545,7 @@ public class MainActivity extends AppCompatActivity {
     Handler handler2 = new Handler(){
         @Override
         public void handleMessage(Message msg){
-            //Log.e(TAG, "온습도 스레드 실행! 호출횟수: "+checkpoint);
+            Log.e("[온습도 스레드]", "온습도 스레드 실행!");
             Bundle bd=msg.getData();
             String temp=bd.getString("temp");
             String humi=bd.getString("humi");

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#dfe4de"
+    android:background="#ffffff"
     android:scrollbars="none">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -75,7 +75,9 @@
                         <Spinner
                             android:id="@+id/select_area1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"></Spinner>
+                            android:layout_height="wrap_content">
+
+                        </Spinner>
                     </LinearLayout>
 
                     <LinearLayout
@@ -269,7 +271,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -294,7 +296,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -319,7 +321,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -344,7 +346,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -497,7 +499,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -521,7 +523,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -545,7 +547,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -569,7 +571,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -629,7 +631,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -653,7 +655,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -677,7 +679,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -701,7 +703,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -725,7 +727,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -749,7 +751,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -773,7 +775,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -797,7 +799,7 @@
                             android:padding="3dp"
                             android:text="내일 시간"
                             android:textColor="#000000"
-                            android:textSize="7pt"
+                            android:textSize="6pt"
                             android:textStyle="bold" />
 
                     </TableRow>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4CCB64</color>
+    <color name="colorPrimary">#58cf8a</color>
+    <!--#4CCB64 맨 처음 색상-->
     <color name="colorPrimaryDark">#1bb201</color>
     <color name="colorAccent">#080808</color>
 </resources>

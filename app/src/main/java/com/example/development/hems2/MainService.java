@@ -25,7 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainService extends Service {
-    private static String TAG = "MainService";
+    private static String TAG = "[메인 서비스 내부]";
 
     double electNum;
     String Data;
@@ -46,7 +46,7 @@ public class MainService extends Service {
 
     @Override
     public void onCreate() {
-        Log.v("MainService ", "onCreate() 호출");
+        Log.v(TAG, "onCreate() 호출");
 
         t=new thread();
         t.start();
@@ -71,7 +71,8 @@ public class MainService extends Service {
 //                    task.execute("http://172.20.10.2/Haniem/setting.php");
                     task.execute("http://211.178.109.157/Haniem/setting.php");
                     i++;
-                    Log.v("MainService ", "data 받기" +i);
+
+                    Log.v(TAG, "data 받기" +i);
 
                     if(push==1&& alarm_point==1){ //push 1이면 설정값이 DB값 넘었다는 뜻
                         alarm_point=2;
@@ -107,7 +108,7 @@ public class MainService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.v("MainService ", "onStartCommand() 호출");
+        Log.v(TAG, "onStartCommand() 호출");
         return START_STICKY;
     }
     @Override
@@ -115,7 +116,7 @@ public class MainService extends Service {
         super.onDestroy();
         t.interrupt();
 
-        Log.e("MainService", " onDestroy() 메인 서비스 종료");
+        Log.e(TAG, " onDestroy() 메인 서비스 종료");
     }
 
     @Override
@@ -135,8 +136,8 @@ public class MainService extends Service {
             Data=result;
             DBnum=Integer.parseInt(Data);
 
-//            Log.v("MainService","받은 수치 : "+Data);
-//            Log.v("MainService","설정된 수치 : "+electNum);
+            Log.d(TAG+"GetData","받은 수치 : "+Data);
+            Log.d(TAG+"GetData","설정된 수치 : "+electNum);
 
             // 알람이 이미 생성된 상태고 DB값이 설정 값보다 작다는 것은 재설정 되었다는 뜻.
             if(alarm_point==2 && DBnum<electNum){
@@ -150,16 +151,16 @@ public class MainService extends Service {
             // electNum - 사용자 설정 값.
             // DBnum - 데이터 베이스 값.
 
-            if((electNum/2)<DBnum) { //50퍼 넘었는지 확인
+            if((electNum/2)<=DBnum) { //50퍼 넘었는지 확인
                 push = 3;
 
                 if(electNum<DBnum) {  //50퍼 넘었다면 100퍼도 넘었는지 확인
                     push = 1;
-//                    Log.v("MainService ", "100퍼 넘음");
+                    Log.v(TAG+"GetData", "100퍼 넘음");
 
                 }
                 else{
-//                    Log.v("MainService ", "50퍼 넘음");
+                    Log.v(TAG+"GetData", "50퍼 넘음");
                 }
 
             }
@@ -187,7 +188,7 @@ public class MainService extends Service {
                 httpURLConnection.connect();
 
                 int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d(TAG, "response code - " + responseStatusCode);
+                //Log.d("[설정 임계치 비교 스레드]", "response code - " + responseStatusCode);
 
                 InputStream inputStream;
                 if(responseStatusCode == HttpURLConnection.HTTP_OK) {

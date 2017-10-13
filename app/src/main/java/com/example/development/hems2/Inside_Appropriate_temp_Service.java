@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -249,6 +250,7 @@ public class Inside_Appropriate_temp_Service extends Service {
     public void onDestroy(){
         super.onDestroy();
         t.interrupt();
+        Log.e("실시간 온습도 알림 서비스", "onDestroy 동작 - 서비스 종료");
     }
 
     public void Notificattion_temp(String status, float temp, float humi, String coments1){

@@ -121,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3mm"
-                android:background="@color/colorPrimary"
+                android:background="#4CCB64"
                 android:orientation="vertical">
 
                 <ImageView
@@ -202,7 +202,7 @@
                     android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/colorPrimary"
+                    android:background="#4CCB64"
                     android:onClick="JoinButton"
                     android:text="회원가입"
                     android:textColor="#ffffff"
@@ -228,7 +228,7 @@
                     android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/colorPrimary"
+                    android:background="#4CCB64"
                     android:onClick="LoginButton"
                     android:text="로그인"
                     android:textColor="#ffffff"
